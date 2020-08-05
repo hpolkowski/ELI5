@@ -1,2 +1,2 @@
 # ELI5
-Explain like I'm 5. Wikipedia for dummies.
+Explain Like I'm Five. Wikipedia for dummies.
