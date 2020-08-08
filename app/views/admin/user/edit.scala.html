@@ -16,7 +16,7 @@
 @admin.main('title -> messages("user.edit.title")) {
 	@notifications()
 	<div class="row">
-		<div class="offset-md-3 col-md-6 offset-sm-1 col-sm-10">
+		<div class="offset-xl-3 col-xl-6 offset-lg-2 col-lg-8 offset-sm-1 col-sm-10">
 			@card('title -> messages("user.edit.header")) {
 				@formGlobalErrors(form)
 				@helper.form(action = controllers.routes.UserController.update(id)) {
@@ -28,11 +28,11 @@
 					</div>
 
 					<div class="col-sm-6">
-						<a href="@routes.UserController.sendResetPassword(id)" class="btn btn-lg btn-warning btn-block">@Messages("user.passwordReset.button")</a>
+						<a href="@routes.UserController.sendResetPassword(id)" class="btn btn-lg btn-warning btn-block mt-3">@Messages("user.passwordReset.button")</a>
 					</div>
 
 					<div class="col-sm-6">
-						<button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">@messages("button.save")</button>
+						<button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block mt-3">@messages("button.save")</button>
 					</div>
 				}
 			}

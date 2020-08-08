@@ -7,6 +7,6 @@
 
 /* Przycisk nagłówka tabeli */
 .card > .card-header > .pull-right {
-    margin-top: -4px;
+    margin-top: -3px;
     margin-bottom: -4px;
 }
