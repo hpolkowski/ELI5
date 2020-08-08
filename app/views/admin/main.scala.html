@@ -1,8 +1,9 @@
 @import play.api.i18n.Messages
+@import play.api.mvc.RequestHeader
 @import play.twirl.api.Html
 @import controllers.AssetsFinder
 
-@(args: (Symbol, Any)*)(content: Html)(implicit loggedIn: User, messages: Messages, assets: AssetsFinder)
+@(args: (Symbol, Any)*)(content: Html)(implicit loggedIn: User, request: RequestHeader, messages: Messages, assets: AssetsFinder)
 
 <!DOCTYPE html>
 <html lang="pl">
@@ -35,6 +36,14 @@
 
                 <div id="main-menu" class="main-menu collapse navbar-collapse">
                     <ul class="nav navbar-nav">
+                        @if(loggedIn.isAdmin) {
+                            <li class="@("active".when(request.path.contains("/admin/user")))">
+                                <a href="@routes.UserController.list()">
+                                    <i class="menu-icon fa fa-users"></i>@messages("admin.navigation.users")
+                                </a>
+                            </li>
+                        }
+
                         <li>
                             <a href="@routes.AuthController.signOut()">
                                 <i class="menu-icon fa fa-power-off"></i>@messages("auth.sign.out")

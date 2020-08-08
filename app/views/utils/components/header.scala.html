@@ -1,0 +1,6 @@
+@(newOrderBy: Int, orderBy: Int, title: String, pageSize: Int, link: (Int, Int, Option[Int], String) => Call, filter: String)
+
+<th class="@if(scala.math.abs(orderBy) == newOrderBy) { @if(orderBy > 0) { sorting_asc } else { sorting_desc } } else { sorting }"
+	onclick="showListRegardOrdering('@link(1, pageSize, Some(newOrderBy), filter)')">@title
+</th>
+

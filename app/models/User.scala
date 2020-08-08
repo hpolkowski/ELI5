@@ -20,4 +20,9 @@ case class User(
     * Adres email użytkownika
     */
   val email: String = providerKey
+
+  /**
+    * True, jeżeli jest administratorem
+    */
+  def isAdmin = role == RoleType.ADMIN
 }

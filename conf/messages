@@ -1,10 +1,28 @@
 # Buttons
 button.send=Send
+button.save=Save
+button.edit=Edit
+button.add=Add
+button.create-new=Create new
 
 # Dodatkowe
 utils.alert.success=Success!
 utils.alert.warning=Warning!
 utils.alert.failure=Failure!
+utils.label.actions=Actions
+
+# Błędy
+error.double=Invalid numeric value
+error.enum=Invalid option
+
+# Stronnicowanie
+pagination.previous=Previous
+pagination.next=Next
+pagination.pageSize.front=Show
+pagination.pageSize.back=entries
+pagination.displaying=Showing {0} to {1} of {2} entries
+pagination.noData=No data
+pagination.search=Search:
 
 # Auth
 auth.email=Email
@@ -19,3 +37,28 @@ auth.requestResetPassword.email.label=Email
 auth.requestResetPassword.success=Check your email for password reset instructions.
 auth.resetPassword.info=Provide email address, if the account exists you will receive further information to help you change the password.
 auth.passwordReset.title=Reset password
+
+# Admin
+admin.navigation.users=Users
+
+# Użytkownicy
+user.passwordReset.title=Reset password
+user.passwordReset.password.label=New password
+user.passwordReset.re-enter.label=Reenter new password
+user.passwordReset.button=Send password
+user.list.header=Users
+user.list.title=User list
+user.list.email=Email
+user.list.name=Name
+user.create.title=Create user
+user.create.header=New user
+user.create.email.label=Email
+user.create.role.label=Role
+user.create.name.label=Full Name
+user.create.success=User with email address {0} successfully created
+users.create.exists=User with email address {0} already exists
+user.edit.title=Edit user
+user.edit.header=Edit user data
+user.edit.success=User with email address {0} updated successfully
+user.resetPassword.send.success=Reset password instructions was sent to email {0}
+user.resetPassword.success=Password changed successfully

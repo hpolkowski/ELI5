@@ -45,6 +45,7 @@ libraryDependencies ++= Seq(
   // Bootstrap 4
   "com.adrianhurt" %% "play-bootstrap" % "1.6.1-P28-B4",
   "org.webjars" % "bootstrap" % "4.1.3",
+  "org.webjars" % "datatables" % "1.10.21",
 
   // JQuery
   "org.webjars" % "jquery" % "2.2.3",

@@ -1,0 +1,12 @@
+/* Zawijanie nagłowka tabeli */
+@media (max-width: 1024px) {
+    .card .card-header strong {
+        display: initial;
+    }
+}
+
+/* Przycisk nagłówka tabeli */
+.card > .card-header > .pull-right {
+    margin-top: -4px;
+    margin-bottom: -4px;
+}

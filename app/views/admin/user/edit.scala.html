@@ -1,0 +1,41 @@
+@import play.api.data.Form
+@import play.api.i18n.Messages
+@import play.api.mvc.RequestHeader
+@import controllers.AssetsFinder
+@import forms.CreateUserForm
+@import _root_.utils.FormHelper
+@import views.html.utils.errors.formGlobalErrors
+@import views.html.utils.notifications
+
+@import views.html.utils.components.card
+@import java.util.UUID
+@(id: UUID, form: Form[CreateUserForm])(implicit loggedIn: User, request: RequestHeader, messages: Messages, assets: AssetsFinder)
+
+@implicitFieldConstructor = @{ b4.vertical.fieldConstructor() }
+
+@admin.main('title -> messages("user.edit.title")) {
+	@notifications()
+	<div class="row">
+		<div class="offset-md-3 col-md-6 offset-sm-1 col-sm-10">
+			@card('title -> messages("user.edit.header")) {
+				@formGlobalErrors(form)
+				@helper.form(action = controllers.routes.UserController.update(id)) {
+					<div class="col-sm-12">
+						@helper.CSRF.formField
+						@b4.email(form("email"), '_label -> messages("user.create.email.label"))
+						@b4.select(form("role"), FormHelper.allRoleTypeOptions, '_label -> messages("user.create.role.label"))
+						@b4.text(form("fullName"), '_label -> messages("user.create.name.label"))
+					</div>
+
+					<div class="col-sm-6">
+						<a href="@routes.UserController.sendResetPassword(id)" class="btn btn-lg btn-warning btn-block">@Messages("user.passwordReset.button")</a>
+					</div>
+
+					<div class="col-sm-6">
+						<button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">@messages("button.save")</button>
+					</div>
+				}
+			}
+		</div>
+	</div>
+}

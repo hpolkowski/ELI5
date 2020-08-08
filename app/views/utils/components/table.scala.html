@@ -1,0 +1,142 @@
+@import models.Page
+@import _root_.utils.FormHelper
+
+@(currentPage: Page[_], link: (Int, Int, Option[Int], String) => Call, args: (Symbol, Any)*)(content: Html)(implicit assets: AssetsFinder, messages: play.api.i18n.Messages)
+
+@filter = @{args.toMap.get('filter).map(_.toString).getOrElse("")}
+
+<link rel="stylesheet" href="@assets.path("lib/datatables/css/dataTables.bootstrap4.min.css")">
+<script src="@assets.path("javascripts/listview-for-links.js")"></script>
+
+<div class="animated fadeIn">
+	<div class="row">
+		<div class="@args.toMap.getOrElse('class, "mx-auto col-auto")">
+			<div class="card">
+				<div class="card-header">
+					<strong class="card-title mt-auto">@args.toMap.get('title)</strong>
+					<div class="pull-right">@args.toMap.get('actions)</div>
+				</div>
+
+				<div class="card-body">
+					<div class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+						<div class="row">
+							<div class="col-sm-12 col-md-5">
+								<div class="dataTables_length">
+									<label>@Messages("pagination.pageSize.front")
+										<select name="pageSize" class="form-control form-control-sm" onchange="showListRegardPageSize()">
+											@for(option <- FormHelper.allPageSizes) {
+												<option value="@link(1, option._1, None, filter)" @{if(currentPage.pageSize == option._1) "selected"}>@option._2</option>
+											}
+										</select> @Messages("pagination.pageSize.back")
+									</label>
+								</div>
+							</div>
+
+							<div class="col-sm-12 col-md-7">
+								<div class="dataTables_filter">
+									<form target="@link(1, currentPage.pageSize, None, "")" onsubmit="event.preventDefault(); showListRegardFilter(this)">
+										<label>@Messages("pagination.search")<input type="search" name="filter" class="form-control form-control-sm" value="@filter" placeholder="" aria-controls="bootstrap-data-table"></label>
+										<input type="submit" style="display: none"/>
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-12 dataTables_content">
+								@if(currentPage.items.nonEmpty) {
+									<table class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="bootstrap-data-table_info">
+										@content
+									</table>
+								} else {
+									<div class="panel panel-default well">
+										<div class="panel-body">
+											<h4>@Messages("pagination.noData")</h4>
+										</div>
+									</div>
+								}
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-12 col-md-5">
+								<div class="dataTables_info" id="bootstrap-data-table_info" role="status" aria-live="polite">
+									@Messages("pagination.displaying", currentPage.offset + 1, currentPage.offset + currentPage.items.size, currentPage.total)
+								</div>
+							</div>
+
+							<div class="col-sm-12 col-md-7">
+								<div class="dataTables_paginate paging_simple_numbers" id="bootstrap-data-table_paginate">
+
+									<ul class="pagination">
+										<li class="paginate_button page-item previous @if(currentPage.page == 1) {disabled}">
+											<a href="@if(currentPage.page != 1) {
+												@link(currentPage.page - 1, currentPage.pageSize, None, filter)
+											} else {#}" class="page-link">@Messages("pagination.previous")</a>
+										</li>
+
+										<li class="paginate_button page-item @if(currentPage.page == 1){active}">
+											<a href="@link(1, currentPage.pageSize, None, filter)" class="page-link">1</a>
+										</li>
+
+										@if(currentPage.pages > 7) {
+											@if(currentPage.page >= 5) {
+												<li class="paginate_button page-item disabled">
+													<a href="" class="page-link">…</a>
+												</li>
+											} else {
+												@for(page <- 2 to 5) {
+													<li class="paginate_button page-item @if(currentPage.page == page) {active}">
+														<a href="@link(page, currentPage.pageSize, None, filter)" class="page-link">@page</a>
+													</li>
+												}
+											}
+
+											@if(currentPage.page >= 5 && currentPage.page <= currentPage.pages - 4) {
+												@for(page <- currentPage.page - 1 to currentPage.page + 1) {
+													<li class="paginate_button page-item @if(currentPage.page == page) {active}">
+														<a href="@link(page, currentPage.pageSize, None, filter)" class="page-link">@page</a>
+													</li>
+												}
+											}
+
+											@if(currentPage.page <= currentPage.pages - 4) {
+												<li class="paginate_button page-item disabled">
+													<a href="" class="page-link">…</a>
+												</li>
+											} else {
+												@for(page <- currentPage.pages - 4 until currentPage.pages) {
+													<li class="paginate_button page-item @if(currentPage.page == page) {active}">
+														<a href="@link(page, currentPage.pageSize, None, filter)" class="page-link">@page</a>
+													</li>
+												}
+											}
+										} else {
+											@for( page <- 2 until currentPage.pages) {
+												<li class="paginate_button page-item @if(currentPage.page == page){active}">
+													<a href="@link(page, currentPage.pageSize, None, filter)" class="page-link">@page</a>
+												</li>
+											}
+										}
+
+										@if(currentPage.pages > 1) {
+											<li class="paginate_button page-item @if(currentPage.page == currentPage.pages){active}">
+												<a href="@link(currentPage.pages, currentPage.pageSize, None, filter)" class="page-link">@currentPage.pages</a>
+											</li>
+										}
+
+										<li class="paginate_button page-item next @if(currentPage.page == currentPage.pages) {disabled}">
+											<a href="@if(currentPage.page != currentPage.pages) {
+												@link(currentPage.page + 1, currentPage.pageSize, None, filter)
+											} else {#}" class="page-link">@Messages("pagination.next")</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
