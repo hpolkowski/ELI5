@@ -1,6 +1,7 @@
 package bootstrap
 
 import com.google.inject.AbstractModule
+import net.codingwell.scalaguice.ScalaModule
 
 /**
  * This class is a Guice module that tells Guice how to bind several
@@ -12,7 +13,7 @@ import com.google.inject.AbstractModule
  * adding `play.modules.enabled` settings to the `application.conf`
  * configuration file.
  */
-class Eli5BootstrapModule extends AbstractModule {
+class Eli5BootstrapModule extends AbstractModule with ScalaModule {
 
   /**
     * Configures the module.

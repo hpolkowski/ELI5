@@ -27,7 +27,34 @@ libraryDependencies ++= Seq(
   "org.postgresql" % "postgresql" % "9.4.1208",
 
   // Quill
-  "io.getquill" %% "quill-jdbc" % "3.0.1"
+  "io.getquill" %% "quill-jdbc" % "3.0.1",
+
+  // Silhouette
+  "com.mohiva" %% "play-silhouette" % "5.0.6",
+  "com.mohiva" %% "play-silhouette-password-bcrypt" % "5.0.6",
+  "com.mohiva" %% "play-silhouette-crypto-jca" % "5.0.6",
+  "com.mohiva" %% "play-silhouette-persistence" % "5.0.6",
+  "com.mohiva" %% "play-silhouette-testkit" % "5.0.6" % "test",
+
+  // Ficus wymagany do Silhouette
+  "com.iheart" %% "ficus" % "1.4.3",
+
+  // Scala Guice wymagany do Silhouette
+  "net.codingwell" %% "scala-guice" % "4.1.0",
+
+  // Bootstrap 4
+  "com.adrianhurt" %% "play-bootstrap" % "1.6.1-P28-B4",
+  "org.webjars" % "bootstrap" % "4.1.3",
+
+  // JQuery
+  "org.webjars" % "jquery" % "2.2.3",
+
+  // Font Awesome
+  "org.webjars" % "font-awesome" % "4.7.0",
+
+  // Popper.js
+  "org.webjars" % "popper.js" % "1.14.4"
+
 )
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )  

@@ -1,0 +1,62 @@
+@import play.api.data.Form
+@import play.api.i18n.Messages
+@import play.api.mvc.RequestHeader
+@import controllers.AssetsFinder
+@import forms.SignInForm
+
+@import views.html.utils.notifications
+@(form: Form[SignInForm])(implicit request: RequestHeader, messages: Messages, assets: AssetsFinder)
+
+@implicitFieldConstructor = @{ b4.vertical.fieldConstructor() }
+
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>@messages("auth.sign.in.title")</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="shortcut icon" href="@assets.path("images/favicon.png")">
+
+        <link rel="stylesheet" type="text/css" href="@assets.path("lib/bootstrap/css/bootstrap.min.css")">
+        <link rel="stylesheet" type="text/css" href="@assets.path("lib/font-awesome/css/font-awesome.min.css")">
+        <link rel="stylesheet" type="text/css" href="@assets.path("stylesheets/style.css")">
+        <link rel="stylesheet" type="text/css" href="@assets.path("stylesheets/main.css")">
+
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    </head>
+
+    <body class="bg-dark">
+        <div class="sufee-login d-flex align-content-center flex-wrap">
+            <div class="container">
+                <div class="login-content">
+                    @notifications()
+
+                    <div class="login-logo">
+                        <a href=""><img src="@assets.path("images/64x64.png")" alt="Logo"></a>
+                    </div>
+
+                    <div class="login-form">
+                        @helper.form(action = controllers.routes.AuthController.authenticate()) {
+                            @helper.CSRF.formField
+                            @b4.email(form("email"), '_label -> messages("auth.email"), 'placeholder -> messages("auth.email"))
+                            @b4.password(form("password"), '_label -> messages("auth.password"), 'placeholder -> messages("auth.password"))
+
+                            <button type="submit" value="submit" class="btn btn-success btn-flat mb-3 mt-3">@messages("auth.sign.in")</button>
+
+                            <div class="change-password-link text-center">
+                                <p>@messages("auth.forgotPassword")<a href="@routes.AuthController.requestResetPassword()"> @messages("auth.changePassword")</a></p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="@assets.path("lib/jquery/jquery.min.js")"></script>
+        <script src="@assets.path("lib/popper.js/umd/popper.min.js")"></script>
+        <script src="@assets.path("lib/bootstrap/js/bootstrap.min.js")"></script>
+        <script src="@assets.path("javascripts/main.js")"></script>
+    </body>
+</html>

@@ -1,0 +1,22 @@
+@()(implicit request: RequestHeader, messages: Messages)
+
+@request.flash.get("success").map { message =>
+    <div class="alert alert-dismissable alert-success" role="alert">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>@messages("utils.alert.success")</strong> @message
+    </div>
+}
+
+@request.flash.get("failure").map { message =>
+    <div class="alert alert-dismissable alert-danger" role="alert">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>@messages("utils.alert.failure")</strong> @message
+    </div>
+}
+
+@request.flash.get("warning").map { message =>
+    <div class="alert alert-dismissable alert-warning" role="alert">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>@messages("utils.alert.warning")</strong> @message
+    </div>
+}

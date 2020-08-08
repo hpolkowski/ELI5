@@ -1,0 +1,21 @@
+# Buttons
+button.send=Send
+
+# Dodatkowe
+utils.alert.success=Success!
+utils.alert.warning=Warning!
+utils.alert.failure=Failure!
+
+# Auth
+auth.email=Email
+auth.password=Password
+auth.sign.out=Log Out
+auth.sign.in=Log In
+auth.credentials.invalid=Login datais invalid.
+auth.sign.in.title=Log In below
+auth.forgotPassword=Forgot password?
+auth.changePassword=Change it here!
+auth.requestResetPassword.email.label=Email
+auth.requestResetPassword.success=Check your email for password reset instructions.
+auth.resetPassword.info=Provide email address, if the account exists you will receive further information to help you change the password.
+auth.passwordReset.title=Reset password
