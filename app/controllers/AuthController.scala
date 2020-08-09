@@ -35,7 +35,7 @@ class AuthController @Inject()(
   /**
     * Przekierowanie do głównej strony
     */
-  val Home: Result = Redirect(routes.HomeController.index())
+  val Home: Result = Redirect(routes.AdminController.index())
 
   /**
     * Przekierowanie do strony logowania

@@ -54,8 +54,11 @@ libraryDependencies ++= Seq(
   "org.webjars" % "font-awesome" % "4.7.0",
 
   // Popper.js
-  "org.webjars" % "popper.js" % "1.14.4"
+  "org.webjars" % "popper.js" % "1.14.4",
 
+  // Obsługa maili
+  "com.typesafe.play" %% "play-mailer" % "6.0.1",
+  "com.typesafe.play" %% "play-mailer-guice" % "6.0.1"
 )
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )  

@@ -12,7 +12,7 @@ import javax.inject._
 import models.User
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc._
-import services._
+import services.{MailerService, _}
 import utils.RoleType
 import utils.auth.{CookieEnvironment, WithRole}
 
@@ -25,7 +25,8 @@ import scala.concurrent.{ExecutionContext, Future}
 class UserController @Inject()(
   components: ControllerComponents,
   silhouette: Silhouette[CookieEnvironment],
-  userService: UserService
+  userService: UserService,
+  mailerService: MailerService
 )(
   implicit
   appConfig: AppConfig,
@@ -106,8 +107,7 @@ class UserController @Inject()(
               user <- userService.save(userData)
               _ <- authInfoRepository.add(userData.loginInfo, passwordHasherRegistry.current.hash(userData.password))
             } yield user.map { user =>
-              userService.generateResetPasswordToken(user.id)
-              //TODO: [ELI5-4] Obsługa maili
+              userService.generateResetPasswordToken(user.id).foreach(_.foreach(mailerService.sendPasswordResetToken))
               Home.flashing("success" -> Messages("user.create.success", user.email))
             }.getOrElse {
               Home.flashing("failure" -> Messages("users.create.exists", userData.email))
@@ -175,7 +175,7 @@ class UserController @Inject()(
     userService.generateResetPasswordToken(id).map {
 
       case Some(user) =>
-        //TODO: [ELI5-4] Obsługa maili
+        mailerService.sendPasswordResetToken(user)
         Home.flashing("success" -> Messages("user.resetPassword.send.success", user.email))
 
       case None =>
