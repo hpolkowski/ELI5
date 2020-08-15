@@ -53,6 +53,9 @@ libraryDependencies ++= Seq(
   // Font Awesome
   "org.webjars" % "font-awesome" % "4.7.0",
 
+  // Simple Line Icons
+  "org.webjars.bower" % "simple-line-icons" % "2.4.1",
+
   // Popper.js
   "org.webjars" % "popper.js" % "1.14.4",
 

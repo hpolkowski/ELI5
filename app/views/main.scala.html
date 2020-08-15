@@ -1,15 +1,189 @@
-@(title: String)(content: Html)
+@(args: (Symbol, Any)*)(content: Html)(implicit request: RequestHeader, messages: Messages, assets: AssetsFinder)
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@messages.lang.language">
     <head>
-        <title>@title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
-        <script src="@routes.Assets.versioned("javascripts/hello.js")" type="text/javascript"></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>@messages(args.toMap.getOrElse('title, "admin.main.title").toString)</title>
+
+        <link rel="shortcut icon" href="@assets.path("images/favicon.png")">
+
+        <link rel="stylesheet" type="text/css" href="@assets.path("lib/bootstrap/css/bootstrap.min.css")">
+        <link rel="stylesheet" type="text/css" href="@assets.path("lib/font-awesome/css/font-awesome.min.css")">
+        <link rel="stylesheet" type="text/css" href="@assets.path("lib/simple-line-icons/css/simple-line-icons.css")">
+        <link rel="stylesheet" type="text/css" href="@assets.path("stylesheets/landing-page.min.css")">
+        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
     </head>
 
     <body>
-        @content
+        <header class="masthead text-white text-center">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-9 mx-auto">
+                        <h1 class="mb-5">@messages("landing.header.message")</h1>
+                        <h2 class="mb-5">@messages("landing.header.invitation")</h2>
+                    </div>
+
+                    <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+                        <form>
+                            <div class="form-row">
+                                <div class="col-12 col-md-10 mb-2 mb-md-0">
+                                    <input type="email" class="form-control form-control-lg" placeholder="@messages(s"landing.header.search.placeholder.${(Math.random * 10).toInt}")">
+                                </div>
+
+                                <div class="col-12 col-md-2">
+                                    <button type="submit" class="btn btn-block btn-lg btn-primary">@messages("landing.header.search.button")</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="articles text-center bg-light">
+            <div class="container">
+                <h2 class="mb-5">@messages("landing.articles.list.header.latest")</h2>
+
+                <!-- TODO: Obsłużyć wyświetlanie prawdziwych artykułów. -->
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="article-item mx-auto mb-5 mb-lg-3">
+                            <a href="#" class="text-dark nav-link">
+                                <h5>How does happiness works?</h5>
+
+                                <img class="img-fluid rounded-bottom rounded-top mb-1" src="@assets.path("images/testimonials-1.jpg")" alt="">
+
+                                <p class="font-weight-light mb-0">Simplest example would be...</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="article-item mx-auto mb-5 mb-lg-3">
+                            <a href="#" class="text-dark nav-link">
+                                <h5>How does happiness works?</h5>
+
+                                <img class="img-fluid rounded-bottom rounded-top mb-1" src="@assets.path("images/testimonials-1.jpg")" alt="">
+
+                                <p class="font-weight-light mb-0">Simplest example would be...</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="article-item mx-auto mb-5 mb-lg-3">
+                            <a href="#" class="text-dark nav-link">
+                                <h5>How does happiness works?</h5>
+
+                                <img class="img-fluid rounded-bottom rounded-top mb-1" src="@assets.path("images/testimonials-1.jpg")" alt="">
+
+                                <p class="font-weight-light mb-0">Simplest example would be...</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="article-item mx-auto mb-5 mb-lg-3">
+                            <a href="#" class="text-dark nav-link">
+                                <h5>How does happiness works?</h5>
+
+                                <img class="img-fluid rounded-bottom rounded-top mb-1" src="@assets.path("images/testimonials-1.jpg")" alt="">
+
+                                <p class="font-weight-light mb-0">Simplest example would be...</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="article-item mx-auto mb-5 mb-lg-3">
+                            <a href="#" class="text-dark nav-link">
+                                <h5>How does happiness works?</h5>
+
+                                <img class="img-fluid rounded-bottom rounded-top mb-1" src="@assets.path("images/testimonials-1.jpg")" alt="">
+
+                                <p class="font-weight-light mb-0">Simplest example would be...</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="article-item mx-auto mb-5 mb-lg-3">
+                            <a href="#" class="text-dark nav-link">
+                                <h5>How does happiness works?</h5>
+
+                                <img class="img-fluid rounded-bottom rounded-top mb-1" src="@assets.path("images/testimonials-1.jpg")" alt="">
+
+                                <p class="font-weight-light mb-0">Simplest example would be...</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="call-to-action text-white text-center">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-9 mx-auto">
+                        <h2 class="mb-4">@messages("landing.newsletter.message")</h2>
+                    </div>
+
+                    <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+                        <form>
+                            <div class="form-row">
+                                <div class="col-12 col-md-9 mb-2 mb-md-0">
+                                    <input type="email" class="form-control form-control-lg" placeholder="@messages("landing.newsletter.placeholder")">
+                                </div>
+                                <div class="col-12 col-md-3">
+                                    <button type="submit" class="btn btn-block btn-lg btn-primary">@messages("landing.newsletter.button")</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+                        <ul class="list-inline mb-2">
+                            <li class="list-inline-item">
+                                <a href="#">@messages("landing.footer.about")</a>
+                            </li>
+
+                            <li class="list-inline-item">&sdot;</li>
+
+                            <li class="list-inline-item">
+                                <a href="#">@messages("landing.footer.contact")</a>
+                            </li>
+
+                            <li class="list-inline-item">&sdot;</li>
+
+                            <li class="list-inline-item">
+                                <a href="#">@messages("landing.footer.termsOfUse")</a>
+                            </li>
+
+                            <li class="list-inline-item">&sdot;</li>
+
+                            <li class="list-inline-item">
+                                <a href="#">@messages("landing.footer.PrivacyPolicy")</a>
+                            </li>
+                        </ul>
+
+                        <p class="text-muted small mb-4 mb-lg-0">&copy; @messages("landing.footer.copyrights")</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="@assets.path("lib/jquery/jquery.min.js")"></script>
+        <script src="@assets.path("lib/bootstrap/js/bootstrap.bundle.min.js")"></script>
     </body>
+
 </html>
