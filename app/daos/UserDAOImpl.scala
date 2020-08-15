@@ -12,9 +12,9 @@ import utils.RoleType.RoleType
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
-  * Zapytania bazodanowe dotyczące użytkoników
+  * Zapytania bazodanowe dotyczące użytkowników
   */
-class UserDAOImpl @Inject() (val database: DatabaseConnector, appConfig: AppConfig) (implicit context: ExecutionContext)
+class UserDAOImpl @Inject() (val database: DatabaseConnector) (implicit context: ExecutionContext)
   extends UserDAO with QueryExtension {
 
   import database.ctx._

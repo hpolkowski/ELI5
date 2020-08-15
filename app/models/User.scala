@@ -25,4 +25,14 @@ case class User(
     * True, jeżeli jest administratorem
     */
   def isAdmin = role == RoleType.ADMIN
+
+  /**
+    * True, jeżeli jest moderatorem
+    */
+  def isModerator = role == RoleType.MODERATOR
+
+  /**
+    * True, jeżeli jest twórcą treści
+    */
+  def isCreator = role == RoleType.CREATOR
 }

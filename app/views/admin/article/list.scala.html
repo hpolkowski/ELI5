@@ -1,0 +1,47 @@
+@import play.api.i18n.Messages
+@import play.api.mvc.RequestHeader
+@import controllers.AssetsFinder
+@import models.Page
+@import views.html.utils.components.{table, header}
+@import views.html.utils.notifications
+@import _root_.utils.FormatHelper
+@(currentPage: Page[Article], orderBy: Int, filter: String)(implicit loggedIn: User, request: RequestHeader, messages: Messages, assets: AssetsFinder)
+
+@implicitFieldConstructor = @{ b4.vertical.fieldConstructor() }
+
+@link(newPage: Int, pageSize: Int, newOrderBy: Option[Int] = None, filter: String) = @{
+	routes.ArticleController.list(newPage, pageSize, newOrderBy.map { selectedOrderBy =>
+		if(selectedOrderBy == scala.math.abs(orderBy)) -orderBy else selectedOrderBy
+	}.getOrElse(orderBy), filter)
+}
+
+@actions = {
+	<a href="@routes.ArticleController.create()" class="btn btn-success btn-sm pull-right">@Messages("button.create-new")</a>
+}
+
+@admin.main('title -> messages("article.list.title")) {
+	@notifications()
+	@table(currentPage, link, 'filter -> filter, 'title -> messages("article.list.header"), 'actions -> actions) {
+		<thead>
+			<tr>
+				@header(1, orderBy, Messages("article.list.title"), currentPage.pageSize, link, filter)
+				@header(2, orderBy, Messages("article.list.state"), currentPage.pageSize, link, filter)
+				@header(3, orderBy, Messages("article.list.createDate"), currentPage.pageSize, link, filter)
+				@header(4, orderBy, Messages("article.list.editDate"), currentPage.pageSize, link, filter)
+				<th>@Messages("utils.label.actions")</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			@currentPage.items.map { article =>
+				<tr>
+					<td>@article.title</td>
+					<td>@messages(article.state.toString)</td>
+					<td>@FormatHelper.formatDate(article.createDate)</td>
+					<td>@FormatHelper.formatDate(article.editDate)</td>
+					<td><a href="@routes.ArticleController.edit(article.id)" class="btn btn-primary btn-sm btn-block">@Messages("button.edit")</a></td>
+				</tr>
+			}
+		</tbody>
+	}
+}

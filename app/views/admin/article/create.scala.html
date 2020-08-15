@@ -1,0 +1,37 @@
+@import play.api.data.Form
+@import play.api.i18n.Messages
+@import play.api.mvc.RequestHeader
+@import controllers.AssetsFinder
+@import forms.CreateArticleForm
+@import _root_.utils.FormHelper
+@import views.html.utils.errors.formGlobalErrors
+@import views.html.utils.notifications
+@import views.html.utils.components.card
+
+@(form: Form[CreateArticleForm])(implicit loggedIn: User, request: RequestHeader, messages: Messages, assets: AssetsFinder)
+
+@implicitFieldConstructor = @{ b4.vertical.fieldConstructor() }
+
+@admin.main('title -> messages("article.create.title")) {
+	@notifications()
+	<div class="row">
+		<div class="offset-xl-3 col-xl-6 offset-lg-2 col-lg-8 offset-sm-1 col-sm-10">
+			@card('title -> messages("article.create.header")) {
+				@formGlobalErrors(form)
+				@helper.form(action = controllers.routes.ArticleController.save()) {
+					<div class="col-sm-12">
+						@helper.CSRF.formField
+						@b4.text(form("title"), '_label -> messages("article.create.title.label"))
+						@b4.textarea(form("content"), '_label -> messages("article.create.content.label"), 'rows -> 10)
+
+						<div class="form-group">
+							<div>
+								<button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block mt-3">@messages("button.save")</button>
+							</div>
+						</div>
+					</div>
+				}
+			}
+		</div>
+	</div>
+}

@@ -15,13 +15,23 @@ utils.label.actions=Actions
 error.double=Invalid numeric value
 error.enum=Invalid option
 
+# Role użytkowników
+ADMIN=ADMINISTRATOR
+MODERATOR=MODERATOR
+CREATOR=CREATOR
+
+# Statusy artykułów
+TO_REVIEW=TO REVIEW
+ACTIVE=ACTIVE
+REJECTED=REJECTED
+
 # Stronnicowanie
 pagination.previous=Previous
 pagination.next=Next
 pagination.pageSize.front=Show
 pagination.pageSize.back=entries
 pagination.displaying=Showing {0} to {1} of {2} entries
-pagination.noData=No data
+pagination.noData=No data to show!
 pagination.search=Search:
 
 # Auth
@@ -39,7 +49,9 @@ auth.resetPassword.info=Provide email address, if the account exists you will re
 auth.passwordReset.title=Reset password
 
 # Admin
+admin.main.title=ELI5 - Explain Like I'm Five!
 admin.navigation.users=Users
+admin.navigation.articles=Articles
 
 # Użytkownicy
 user.passwordReset.title=Reset password
@@ -55,10 +67,26 @@ user.create.header=New user
 user.create.email.label=Email
 user.create.role.label=Role
 user.create.name.label=Full Name
-user.create.success=User with email address {0} successfully created
-users.create.exists=User with email address {0} already exists
+user.create.success=User with email address {0} successfully created.
+users.create.exists=User with email address {0} already exists.
 user.edit.title=Edit user
 user.edit.header=Edit user data
-user.edit.success=User with email address {0} updated successfully
-user.resetPassword.send.success=Reset password instructions was sent to email {0}
-user.resetPassword.success=Password changed successfully
+user.edit.success=User with email address {0} updated successfully.
+user.resetPassword.send.success=Reset password instructions was sent to email {0}.
+user.resetPassword.success=Password changed successfully.
+
+# Artykuły
+article.list.title=Article list
+article.list.header=Articles
+article.list.state=Status
+article.list.createDate=Created
+article.list.editDate=Updated
+article.create.title=Create new article
+article.create.header=New article
+article.create.title.label=Title
+article.create.content.label=Content
+article.edit.title=Edit article data
+article.edit.header=Edit article
+article.save.success=Article successfully submited.
+article.edit.notFound=Article not found.
+article.update.success=Article successfully updated.

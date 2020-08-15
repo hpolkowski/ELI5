@@ -26,5 +26,12 @@ GET		/admin/user/:id/resetPassword					    controllers.UserController.sendResetP
 GET		/admin/user/:id/resetPassword/:token			    controllers.UserController.resetPassword(id: java.util.UUID, token: String)
 POST	/admin/user/:id/resetPassword/:token			    controllers.UserController.savePassword(id: java.util.UUID, token: String)
 
+# Article
+GET		/admin/article/list								    controllers.ArticleController.list(p:Int ?= 1, ps:Int?=10, s:Int ?= 0, f ?= "")
+GET		/admin/article/create								controllers.ArticleController.create()
+POST	/admin/article/create								controllers.ArticleController.save()
+GET		/admin/article/:id/edit							    controllers.ArticleController.edit(id: java.util.UUID)
+POST	/admin/article/:id/edit							    controllers.ArticleController.update(id: java.util.UUID)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                                       controllers.Assets.versioned(path="/public", file: Asset)

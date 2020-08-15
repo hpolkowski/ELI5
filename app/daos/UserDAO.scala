@@ -9,7 +9,7 @@ import utils.RoleType.RoleType
 import scala.concurrent.Future
 
 /**
- * Give access to the user object.
+ * Dostęp do obiektów użytkowników
  */
 trait UserDAO {
 

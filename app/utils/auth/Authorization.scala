@@ -20,3 +20,15 @@ case class WithRole(role: RoleType) extends Authorization[User, CookieAuthentica
     user.role.equals(role) || user.role.equals(RoleType.ADMIN)
   }
 }
+
+/**
+  * Model do sprawdzania czy dana rola jest uprawniona do zasobu
+  *
+  * @param roles dozwolone role użytkownika w systemie
+  */
+case class WithRoles(roles: Seq[RoleType]) extends Authorization[User, CookieAuthenticator] {
+  override def isAuthorized[B](user: User, authenticator: CookieAuthenticator)(implicit request: Request[B]): Future[Boolean] = Future.successful
+  {
+    roles.contains(user.role) || user.role.equals(RoleType.ADMIN)
+  }
+}

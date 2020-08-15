@@ -6,11 +6,11 @@
 @(args: (Symbol, Any)*)(content: Html)(implicit loggedIn: User, request: RequestHeader, messages: Messages, assets: AssetsFinder)
 
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="@messages.lang.language">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>@args.toMap.get('title)</title>
+        <title>@messages(args.toMap.getOrElse('title, "admin.main.title").toString)</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<link rel="shortcut icon" href="@assets.path("images/favicon.png")">
@@ -30,8 +30,8 @@
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <a class="navbar-brand" href="/"><img src="@assets.path("images/64x64.png")" alt="Logo"></a>
-                    <a class="navbar-brand hidden" href="/"><img src="@assets.path("images/32x32.png")" alt="Logo"></a>
+                    <a class="navbar-brand" href="@routes.AdminController.index()"><img src="@assets.path("images/64x64.png")" alt="Logo"></a>
+                    <a class="navbar-brand hidden" href="@routes.AdminController.index()"><img src="@assets.path("images/32x32.png")" alt="Logo"></a>
                 </div>
 
                 <div id="main-menu" class="main-menu collapse navbar-collapse">
@@ -42,7 +42,31 @@
                                     <i class="menu-icon fa fa-users"></i>@messages("admin.navigation.users")
                                 </a>
                             </li>
+
+                            <li class="@("active".when(request.path.contains("/admin/article")))">
+                                <a href="@routes.ArticleController.list()">
+                                    <i class="menu-icon fa fa-book"></i>@messages("admin.navigation.articles")
+                                </a>
+                            </li>
                         }
+
+                        @if(loggedIn.isModerator) {
+                            <li class="@("active".when(request.path.contains("/admin/article")))">
+                                <a href="@routes.ArticleController.list()">
+                                    <i class="menu-icon fa fa-book"></i>@messages("admin.navigation.articles")
+                                </a>
+                            </li>
+                        }
+
+                        @if(loggedIn.isCreator) {
+                            <li class="@("active".when(request.path.contains("/admin/article")))">
+                                <a href="@routes.ArticleController.list()">
+                                    <i class="menu-icon fa fa-book"></i>@messages("admin.navigation.articles")
+                                </a>
+                            </li>
+                        }
+
+                        <h3 class="menu-title">@loggedIn.email</h3>
 
                         <li>
                             <a href="@routes.AuthController.signOut()">

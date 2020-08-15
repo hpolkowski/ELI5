@@ -1,7 +1,7 @@
 @(args: (Symbol,Any)*)(content: Html)(implicit messages: play.api.i18n.Messages)
 
 <div class="card @args.toMap.get('class)">
-	<div class="card-header"> @args.toMap.get('title)</div>
+	<div class="card-header"> @args.toMap.get('title).map( value => messages(value.toString) )</div>
 
 	<div class="card-body card-block">
 		@content

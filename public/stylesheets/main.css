@@ -10,3 +10,8 @@
     margin-top: -3px;
     margin-bottom: -4px;
 }
+
+/* Input wyszukiwarki na liście */
+div.dataTables_wrapper div.dataTables_filter input {
+    max-width: 10em;
+}

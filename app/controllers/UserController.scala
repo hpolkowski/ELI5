@@ -57,16 +57,8 @@ class UserController @Inject()(
   def list(page: Int, pageSize: Int, orderBy: Int, filter: String) = silhouette.SecuredAction(WithRole(RoleType.ADMIN)).async { implicit request =>
     implicit val loggedIn: User = request.identity
 
-    loggedIn.role match {
-
-      case RoleType.ADMIN =>
-        userService.list(page, pageSize, orderBy, filter).map { userList =>
-          Ok(views.html.admin.user.list(userList, orderBy, filter))
-        }
-
-      case _ =>
-        Future.successful(Forbidden)
-
+    userService.list(page, pageSize, orderBy, filter).map { userList =>
+      Ok(views.html.admin.user.list(userList, orderBy, filter))
     }
   }
 
@@ -76,15 +68,7 @@ class UserController @Inject()(
   def create = silhouette.SecuredAction(WithRole(RoleType.ADMIN)).async { implicit request =>
     implicit val loggedIn: User = request.identity
 
-    loggedIn.role match {
-
-      case RoleType.ADMIN =>
-        Future.successful(Ok(views.html.admin.user.create(CreateUserForm.form)))
-
-      case _ =>
-        Future.successful(Forbidden)
-
-    }
+    Future.successful(Ok(views.html.admin.user.create(CreateUserForm.form)))
   }
 
   /**
@@ -93,32 +77,24 @@ class UserController @Inject()(
   def save = silhouette.SecuredAction(WithRole(RoleType.ADMIN)).async { implicit request =>
     implicit val loggedIn: User = request.identity
 
-    loggedIn.role match {
+    CreateUserForm.form.bindFromRequest.fold(
 
-      case RoleType.ADMIN =>
-        CreateUserForm.form.bindFromRequest.fold(
+      formWithErrors => Future.successful(BadRequest(views.html.admin.user.create(formWithErrors))),
 
-          formWithErrors => Future.successful(BadRequest(views.html.admin.user.create(formWithErrors))),
+      data => {
+        val userData = User(UUID.randomUUID(), data.role, CredentialsProvider.ID, data.email, "", data.fullName)
 
-          data => {
-            val userData = User(UUID.randomUUID(), data.role, CredentialsProvider.ID, data.email, "", data.fullName)
-
-            for {
-              user <- userService.save(userData)
-              _ <- authInfoRepository.add(userData.loginInfo, passwordHasherRegistry.current.hash(userData.password))
-            } yield user.map { user =>
-              userService.generateResetPasswordToken(user.id).foreach(_.foreach(mailerService.sendPasswordResetToken))
-              Home.flashing("success" -> Messages("user.create.success", user.email))
-            }.getOrElse {
-              Home.flashing("failure" -> Messages("users.create.exists", userData.email))
-            }
-          }
-        )
-
-      case _ =>
-        Future.successful(Forbidden)
-
-    }
+        for {
+          user <- userService.save(userData)
+          _ <- authInfoRepository.add(userData.loginInfo, passwordHasherRegistry.current.hash(userData.password))
+        } yield user.map { user =>
+          userService.generateResetPasswordToken(user.id).foreach(_.foreach(mailerService.sendPasswordResetToken))
+          Home.flashing("success" -> Messages("user.create.success", user.email))
+        }.getOrElse {
+          Home.flashing("failure" -> Messages("users.create.exists", userData.email))
+        }
+      }
+    )
   }
 
   /**
@@ -127,21 +103,17 @@ class UserController @Inject()(
   def edit(id: UUID) = silhouette.SecuredAction(WithRole(RoleType.ADMIN)).async { implicit request =>
     implicit val loggedIn: User = request.identity
 
-    if( loggedIn.role == RoleType.ADMIN || loggedIn.id == id) {
-      userService.retrieve(id).map {
+    userService.retrieve(id).map {
 
-        case Some(user) =>
-          val form = CreateUserForm.form.fill(CreateUserForm(user.email, user.role, user.fullName))
+      case Some(user) =>
+        val form = CreateUserForm.form.fill(CreateUserForm(user.email, user.role, user.fullName))
 
-          Ok(views.html.admin.user.edit(id, form))
+        Ok(views.html.admin.user.edit(id, form))
 
-        case None =>
-          NotFound
+      case None =>
+        NotFound
 
-      }
     }
-    else
-      Future.successful(Forbidden)
   }
 
   /**
@@ -150,22 +122,18 @@ class UserController @Inject()(
   def update(id: UUID) = silhouette.SecuredAction(WithRole(RoleType.ADMIN)).async { implicit request =>
     implicit val loggedIn: User = request.identity
 
-    if( loggedIn.role == RoleType.ADMIN || loggedIn.id == id) {
-      CreateUserForm.form.bindFromRequest.fold(
+    CreateUserForm.form.bindFromRequest.fold(
 
-        formWithErrors => Future.successful(BadRequest(views.html.admin.user.edit(id, formWithErrors))),
+      formWithErrors => Future.successful(BadRequest(views.html.admin.user.edit(id, formWithErrors))),
 
-        data => {
-          val userData = User(id, data.role, CredentialsProvider.ID, data.email, "", data.fullName)
+      data => {
+        val userData = User(id, data.role, CredentialsProvider.ID, data.email, "", data.fullName)
 
-          userService.update(userData).map { user =>
-            Home.flashing("success" -> Messages("user.edit.success", user.email))
-          }
+        userService.update(userData).map { user =>
+          Home.flashing("success" -> Messages("user.edit.success", user.email))
         }
-      )
-    }
-    else
-      Future.successful(Forbidden)
+      }
+    )
   }
 
   /**
