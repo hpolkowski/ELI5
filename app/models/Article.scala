@@ -35,6 +35,12 @@ case class Article(
     *
     * @return formularz tworzenia artykułu
     */
-  def toCreateArticleForm: Form[CreateArticleForm] = CreateArticleForm.form.fill(CreateArticleForm(title, content))
+  def toCreateArticleForm: Form[CreateArticleForm] = CreateArticleForm.form.fill(CreateArticleForm(title, Some(url), Some(state), content))
 
+  /**
+    * Zwraca true jeżeli artykuł jest do sprawdzenia
+    *
+    * @return true jeżeli status jest TO_REVIEW
+    */
+  def isToReview: Boolean = state == ArticleState.TO_REVIEW
 }

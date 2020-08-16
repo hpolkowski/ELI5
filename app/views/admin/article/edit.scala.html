@@ -9,26 +9,32 @@
 
 @import views.html.utils.components.card
 @import java.util.UUID
-@(id: UUID, form: Form[CreateArticleForm])(implicit loggedIn: User, request: RequestHeader, messages: Messages, assets: AssetsFinder)
+@(id: UUID, form: Form[CreateArticleForm], readonly: Boolean = false)(implicit loggedIn: User, request: RequestHeader, messages: Messages, assets: AssetsFinder)
 
 @implicitFieldConstructor = @{ b4.vertical.fieldConstructor() }
 
 @admin.main('title -> "article.edit.title") {
 	@notifications()
+	@formGlobalErrors(form)
 	<div class="row">
 		<div class="offset-xl-3 col-xl-6 offset-lg-2 col-lg-8 offset-sm-1 col-sm-10">
 			@card('title -> "article.edit.header") {
-				@formGlobalErrors(form)
-				@helper.form(action = controllers.routes.ArticleController.update(id)) {
+				@helper.form(controllers.routes.ArticleController.update(id)) {
 					<div class="col-sm-12">
 						@helper.CSRF.formField
-						@b4.text(form("title"), '_label -> messages("article.create.title.label"))
-						@b4.textarea(form("content"), '_label -> messages("article.create.content.label"), 'rows -> 10)
+						@b4.text(form("title"), '_label -> messages("article.create.title.label"), 'readonly -> readonly)
+						@if(loggedIn.isModerator || loggedIn.isAdmin) {
+							@b4.text(form("url"), '_label -> messages("article.create.url.label"))
+							@b4.select(form("state"), FormHelper.allArticleStates, '_label -> messages("article.create.state.label"))
+						}
+						@b4.textarea(form("content"), '_label -> messages("article.create.content.label"), 'rows -> 10, 'readonly -> readonly)
 					</div>
 
-					<div class="offset-6 col-6">
-						<button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block mt-3">@messages("button.save")</button>
-					</div>
+					@if(!readonly) {
+						<div class="offset-6 col-6">
+							<button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block mt-3">@messages("button.save")</button>
+						</div>
+					}
 				}
 			}
 		</div>

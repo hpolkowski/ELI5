@@ -87,7 +87,9 @@ class ArticleController @Inject()(
     articleService.retrieve(id).map {
 
       case Some(article) =>
-        Ok(views.html.admin.article.edit(article.id, article.toCreateArticleForm))
+        val readonly = loggedIn.isCreator && !article.isToReview
+
+        Ok(views.html.admin.article.edit(article.id, article.toCreateArticleForm, readonly))
 
       case None =>
         Home.flashing("failure" -> "article.edit.notFound")

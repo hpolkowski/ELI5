@@ -1580,7 +1580,7 @@ header .form-inline {
     width: 50px;
     padding:12px 0;
     padding: 0.75rem 0;
-    margin: 0 !important !important;
+    margin: 0 !important;
     color: #fff;
     outline: 0;
     text-align: center;
@@ -2143,17 +2143,6 @@ header .form-inline {
   border-top: 4px solid;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
-}
-
-/*    Zamówienia
----------------------------*/
-.modal-body-actions {
-  text-align: center;
-}
-
-.modal-body-actions a,
-.modal-body-actions input[type="button"] {
-  width: 50%;
 }
 
 /*    Animacja ładowania

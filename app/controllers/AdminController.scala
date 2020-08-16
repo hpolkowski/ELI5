@@ -6,7 +6,7 @@ import models.User
 import play.api.i18n.I18nSupport
 import play.api.mvc._
 import utils.RoleType
-import utils.auth.{CookieEnvironment, WithRole}
+import utils.auth.{CookieEnvironment, WithRole, WithRoles}
 
 /**
  * Kontrolej części administracjnej
@@ -23,7 +23,7 @@ class AdminController @Inject()(
   /**
    * Główna strona administracyjna
    */
-  def index = silhouette.SecuredAction(WithRole(RoleType.ADMIN)) { implicit request =>
+  def index = silhouette.SecuredAction(WithRoles(Seq(RoleType.ADMIN, RoleType.MODERATOR, RoleType.CREATOR))) { implicit request =>
     implicit val loggedIn: User = request.identity
 
     Ok(views.html.admin.index())

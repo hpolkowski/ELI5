@@ -6,16 +6,22 @@ import java.util.UUID
 import models.{Article, User}
 import play.api.data.Form
 import play.api.data.Forms._
+import utils.FormFieldImplicits.enum
+import utils.ArticleState.ArticleState
 import utils.ArticleState
 
 /**
   * Formularz danych tworzenia artykułu
   *
   * @param title      tytuł artykułu
+  * @param url        ofijalny adres dostępowy
+  * @param state      status artykułu
   * @param content    zawartość artykułu
   */
 case class CreateArticleForm (
   title: String,
+  url: Option[String],
+  state: Option[ArticleState.ArticleState],
   content: String
 ) {
 
@@ -26,7 +32,7 @@ case class CreateArticleForm (
     * @return obiekt artykułu
     */
   def toArticle(id: UUID )(implicit loggedIn: User): Article =
-    Article(id, loggedIn.id, "", title, content, ArticleState.TO_REVIEW, LocalDateTime.now, LocalDateTime.now)
+    Article(id, loggedIn.id, url.getOrElse(""), title, content, state.getOrElse(ArticleState.TO_REVIEW), LocalDateTime.now, LocalDateTime.now)
 
   /**
     * Konwertuje dane z formularza na obiekt
@@ -42,8 +48,13 @@ case class CreateArticleForm (
 object CreateArticleForm {
   val form = Form(
     mapping(
-      "title" -> text,
-      "content" -> text
+      "title" -> nonEmptyText,
+      "url" -> optional(text.verifying("error.illegalCharacters", _.matches("[A-z0-9_-]+"))),
+      "state" -> optional(enum[ArticleState](ArticleState)),
+      "content" -> nonEmptyText
     )(CreateArticleForm.apply)(CreateArticleForm.unapply)
+      .verifying("article.edit.url.empty", data =>
+        !(data.state.contains(ArticleState.ACTIVE) && data.url.isEmpty)
+      )
   )
 }

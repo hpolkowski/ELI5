@@ -20,4 +20,12 @@ object FormHelper {
     * @return lista opcji (id,nazwa)
     */
   def allRoleTypeOptions(implicit provider: MessagesProvider) = RoleType.values.map { enum => enum.toString -> Messages(enum.toString) }.toList
+
+  /**
+    * Zwraca wszystkie opcje statusów artykułów
+    *
+    * @return lista opcji (id,nazwa)
+    */
+  def allArticleStates(implicit provider: MessagesProvider) = ArticleState.values.map { enum => enum.toString -> Messages(enum.toString) }.toList
+
 }

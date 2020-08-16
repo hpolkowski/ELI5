@@ -15,10 +15,10 @@
 
 @admin.main('title -> messages("user.edit.title")) {
 	@notifications()
+	@formGlobalErrors(form)
 	<div class="row">
 		<div class="offset-xl-3 col-xl-6 offset-lg-2 col-lg-8 offset-sm-1 col-sm-10">
 			@card('title -> messages("user.edit.header")) {
-				@formGlobalErrors(form)
 				@helper.form(action = controllers.routes.UserController.update(id)) {
 					<div class="col-sm-12">
 						@helper.CSRF.formField

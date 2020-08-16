@@ -4,16 +4,19 @@ button.save=Save
 button.edit=Edit
 button.add=Add
 button.create-new=Create new
+button.actions=Actions
 
 # Dodatkowe
 utils.alert.success=Success!
 utils.alert.warning=Warning!
 utils.alert.failure=Failure!
+utils.alert.error=Error!
 utils.label.actions=Actions
 
 # Błędy
 error.double=Invalid numeric value
 error.enum=Invalid option
+error.illegalCharacters=Use only small and big letters, numbers and underscores
 
 # Role użytkowników
 ADMIN=ADMINISTRATOR
@@ -84,9 +87,12 @@ article.list.editDate=Updated
 article.create.title=Create new article
 article.create.header=New article
 article.create.title.label=Title
+article.create.url.label=Url
+article.create.state.label=State
 article.create.content.label=Content
 article.edit.title=Edit article data
 article.edit.header=Edit article
+article.edit.url.empty=Url field can''t be empty!
 article.save.success=Article successfully submited.
 article.edit.notFound=Article not found.
 article.update.success=Article successfully updated.

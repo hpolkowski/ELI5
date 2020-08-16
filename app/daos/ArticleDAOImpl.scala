@@ -51,6 +51,8 @@ class ArticleDAOImpl @Inject() (val database: DatabaseConnector) (implicit conte
   override def update(data: Article): Future[Unit] =
     Future.successful(run(articles.filter(_.id == lift(data.id)).update(
       _.title -> lift(data.title),
+      _.url -> lift(data.url),
+      _.state -> lift(data.state),
       _.content -> lift(data.content),
       _.editDate -> lift(data.editDate)
     )))
