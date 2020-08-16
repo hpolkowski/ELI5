@@ -34,13 +34,15 @@
                     </div>
 
                     <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-                        <form>
+                        <form action="/#content" method="POST" class="form-vertical" role="form">
                             <div class="form-row">
-                                <div class="col-12 col-md-10 mb-2 mb-md-0">
-                                    <input type="email" class="form-control form-control-lg" placeholder="@messages(s"landing.header.search.placeholder.${(Math.random * 10).toInt}")">
+                                @helper.CSRF.formField
+
+                                <div class="col-12 col-md-9 mb-2 mb-md-0">
+                                    <input type="text" name="search" class="form-control form-control-lg" placeholder="@messages(s"landing.header.search.placeholder.${(Math.random * 10).toInt}")" value="@args.toMap.get('filter)">
                                 </div>
 
-                                <div class="col-12 col-md-2">
+                                <div class="col-12 col-md-3">
                                     <button type="submit" class="btn btn-block btn-lg btn-primary">@messages("landing.header.search.button")</button>
                                 </div>
                             </div>
@@ -54,9 +56,7 @@
             <div class="container">
                 <h2 class="mb-5">@messages(title)</h2>
 
-                <div class="row">
-                    @content
-                </div>
+                @content
             </div>
         </section>
 

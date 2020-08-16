@@ -49,7 +49,7 @@ auth.resetPassword.info=Provide email address, if the account exists you will re
 auth.passwordReset.title=Reset password
 
 # Admin
-admin.main.title=ELI5 - Explain Like I'm Five!
+admin.main.title=ELI5 - Explain Like I''m Five!
 admin.navigation.users=Users
 admin.navigation.articles=Articles
 
@@ -92,7 +92,7 @@ article.edit.notFound=Article not found.
 article.update.success=Article successfully updated.
 
 # Landing
-landing.header.message=ELI5 - Explain Like I'm Five!
+landing.header.message=ELI5 - Explain Like I''m Five!
 landing.header.invitation=What you are looking for?
 landing.header.search.placeholder.0=How does inflation work?
 landing.header.search.placeholder.1=How does induction charging works?
@@ -105,7 +105,10 @@ landing.header.search.placeholder.7=What is a Tesseract?
 landing.header.search.placeholder.8=What is space made out of?
 landing.header.search.placeholder.9=Difference between LED, AMOLED, LCD displays?
 landing.header.search.button=Explain!
+landing.articles.list.header=Here are matching results!
 landing.articles.list.header.latest=Check out our latest articles!
+landing.articles.loadMore=Load more...
+landing.articles.noMore=No more results
 landing.newsletter.message=Want to know more? Sign up to our newsletter!
 landing.newsletter.placeholder=Enter your email...
 landing.newsletter.button=Sign up!

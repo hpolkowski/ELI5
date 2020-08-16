@@ -91,12 +91,14 @@ class ArticleDAOImpl @Inject() (val database: DatabaseConnector) (implicit conte
       case -3 => filteredQuery.sortBy(_.createDate)(Ord.desc)
       case -4 => filteredQuery.sortBy(_.editDate)(Ord.desc)
 
+      case 0 => filteredQuery.sortBy(_.editDate)(Ord.desc)
+
       case _ => filteredQuery.sortBy(_.id)(Ord.desc)
     }
 
     val offset = pageSize * (page - 1)
     val result = run(sortedQuery.drop(lift(offset)).take(lift(pageSize)))
 
-    Future.successful(Page(result, page, offset, run(query.size), pageSize))
+    Future.successful(Page(result, page, offset, run(filteredQuery.size), pageSize))
   }
 }

@@ -4,7 +4,7 @@ import javax.inject._
 import play.api.data.{Form, Forms}
 import play.api.i18n.I18nSupport
 import play.api.mvc._
-import services.HomeService
+import services.{ArticleService, HomeService}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -14,7 +14,8 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class HomeController @Inject()(
   components: ControllerComponents,
-  homeService: HomeService
+  homeService: HomeService,
+  articleService: ArticleService
 )(
   implicit
   assets: AssetsFinder,
@@ -25,9 +26,35 @@ class HomeController @Inject()(
 
   /**
     * Główna strona aplikacji
+    *
+    * @param page     aktualna strona
+    * @param pageSize rozmiar strony
+    * @param orderBy  parametr sortowania
+    * @param filter   filtry
     */
-  def index = Action { implicit request =>
-    Ok(views.html.index())
+  def index(page: Int, pageSize: Int, orderBy: Int, filter: String) = Action.async { implicit request =>
+    articleService.list(page, pageSize, orderBy, filter).map { articles =>
+      Ok(views.html.index(articles, filter))
+    }
+  }
+
+  /**
+    * Główna strona aplikacji
+    *
+    * @param page     aktualna strona
+    * @param pageSize rozmiar strony
+    * @param orderBy  parametr sortowania
+    */
+  def search(page: Int, pageSize: Int, orderBy: Int) = Action.async { implicit request =>
+
+    Form("search" -> Forms.text).bindFromRequest().fold(
+      formWithErrors => Future.successful(Home),
+
+      filter =>
+        articleService.list(page, pageSize, orderBy, filter).map { articles =>
+          Ok(views.html.index(articles, filter))
+        }
+    )
   }
 
   /**

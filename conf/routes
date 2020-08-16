@@ -4,7 +4,8 @@
 # ~~~~
 
 # Home
-GET     /                                                   controllers.HomeController.index
+GET     /                                                   controllers.HomeController.index(p:Int ?= 1, ps:Int?=12, s:Int ?= 0, f ?= "")
+POST    /                                                   controllers.HomeController.search(p:Int ?= 1, ps:Int?=12, s:Int ?= 0)
 POST    /newsletter/signup                                  controllers.HomeController.newsletterSignUp
 
 # Auth
