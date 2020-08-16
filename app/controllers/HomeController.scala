@@ -58,6 +58,22 @@ class HomeController @Inject()(
   }
 
   /**
+    * Szczeguły artykułu
+    *
+    * @param url adres artykułu
+    */
+  def details(url: String) = Action.async { implicit request =>
+    articleService.retrieve(url).map {
+
+      case Some(article) =>
+        Ok(views.html.details(article))
+
+      case None =>
+        Home.flashing("failure" -> "landing.articles.details.notFound")
+    }
+  }
+
+  /**
     * Obsługa zapisu do listy mailingowej newsletrtera
     */
   def newsletterSignUp = Action.async { implicit request =>

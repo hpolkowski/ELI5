@@ -1,0 +1,10 @@
+@(article: Article)(implicit request: RequestHeader, messages: Messages, assets: AssetsFinder)
+
+@main(article.title) {
+
+    <div class="row">
+        <div class="col-12">
+            @article.content
+        </div>
+    </div>
+}

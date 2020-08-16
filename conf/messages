@@ -109,6 +109,7 @@ landing.articles.list.header=Here are matching results!
 landing.articles.list.header.latest=Check out our latest articles!
 landing.articles.loadMore=Load more...
 landing.articles.noMore=No more results
+landing.articles.details.notFound=Sorry, couldn't find your article.
 landing.newsletter.message=Want to know more? Sign up to our newsletter!
 landing.newsletter.placeholder=Enter your email...
 landing.newsletter.button=Sign up!

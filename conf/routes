@@ -6,6 +6,7 @@
 # Home
 GET     /                                                   controllers.HomeController.index(p:Int ?= 1, ps:Int?=12, s:Int ?= 0, f ?= "")
 POST    /                                                   controllers.HomeController.search(p:Int ?= 1, ps:Int?=12, s:Int ?= 0)
+GET     /article/:url                                       controllers.HomeController.details(url: String)
 POST    /newsletter/signup                                  controllers.HomeController.newsletterSignUp
 
 # Auth

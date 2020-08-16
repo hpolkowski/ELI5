@@ -6,7 +6,7 @@
         @page.items.map { article =>
             <div class="col-lg-4">
                 <div class="article-item mx-auto mb-5 mb-lg-3">
-                    <a href="#content" class="text-dark nav-link">
+                    <a href="@routes.HomeController.details(article.url)#content" class="text-dark nav-link">
                         <h5>@article.title</h5>
 
                         <img class="img-fluid rounded-bottom rounded-top mb-1" src="@assets.path("images/testimonials-1.jpg")" alt="">
