@@ -67,10 +67,13 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
     // Services
     bind[UserService].to[UserServiceImpl]
     bind[ArticleService].to[ArticleServiceImpl]
+    bind[MailerService].to[MailerServiceImpl]
+    bind[HomeService].to[HomeServiceImpl]
 
     // DAOs
     bind[UserDAO].to[UserDAOImpl]
     bind[ArticleDAO].to[ArticleDAOImpl]
+    bind[NewsletterDAO].to[NewsletterDAOImpl]
 
     bind[CacheLayer].to[PlayCacheLayer]
     bind[IDGenerator].toInstance(new SecureRandomIDGenerator())

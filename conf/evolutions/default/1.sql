@@ -27,6 +27,11 @@ CREATE TABLE Articles (
 	FOREIGN KEY (creator_id) REFERENCES Users (id)
 );
 
+CREATE TABLE Newsletter (
+    email                           CHARACTER VARYING NOT NULL
+);
+
 # --- !Downs
+DROP TABLE Newsletter;
 DROP TABLE Articles;
 DROP TABLE Users;

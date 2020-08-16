@@ -1,4 +1,7 @@
+@import views.html.utils.notifications
 @(title: String, args: (Symbol, Any)*)(content: Html)(implicit request: RequestHeader, messages: Messages, assets: AssetsFinder)
+
+@implicitFieldConstructor = @{ b4.vertical.fieldConstructor() }
 
 <!DOCTYPE html>
 <html lang="@messages.lang.language">
@@ -21,6 +24,10 @@
             <div class="overlay"></div>
             <div class="container">
                 <div class="row">
+                    <div class="col-xl-6 mx-auto">
+                        @notifications()
+                    </div>
+
                     <div class="col-xl-9 mx-auto">
                         <h1 class="mb-5">@messages("landing.header.message")</h1>
                         <h2 class="mb-5">@messages("landing.header.invitation")</h2>
@@ -65,16 +72,19 @@
                     </div>
 
                     <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-                        <form>
+                        @b4.form(routes.HomeController.newsletterSignUp()) {
                             <div class="form-row">
+                                @helper.CSRF.formField
+
                                 <div class="col-12 col-md-9 mb-2 mb-md-0">
-                                    <input type="email" class="form-control form-control-lg" placeholder="@messages("landing.newsletter.placeholder")">
+                                    <input type="email" name="newsletterEmail" class="form-control form-control-lg" placeholder="@messages("landing.newsletter.placeholder")">
                                 </div>
+
                                 <div class="col-12 col-md-3">
                                     <button type="submit" class="btn btn-block btn-lg btn-primary">@messages("landing.newsletter.button")</button>
                                 </div>
                             </div>
-                        </form>
+                        }
                     </div>
                 </div>
             </div>

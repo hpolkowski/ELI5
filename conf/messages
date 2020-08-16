@@ -109,6 +109,7 @@ landing.articles.list.header.latest=Check out our latest articles!
 landing.newsletter.message=Want to know more? Sign up to our newsletter!
 landing.newsletter.placeholder=Enter your email...
 landing.newsletter.button=Sign up!
+landing.newsletter.signup.success=Thanks for subscribing to our newsletter!
 landing.footer.about=About
 landing.footer.contact=Contact
 landing.footer.termsOfUse=Terms of Use

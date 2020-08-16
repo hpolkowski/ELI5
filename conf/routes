@@ -5,6 +5,7 @@
 
 # Home
 GET     /                                                   controllers.HomeController.index
+POST    /newsletter/signup                                  controllers.HomeController.newsletterSignUp
 
 # Auth
 GET		/login												controllers.AuthController.login

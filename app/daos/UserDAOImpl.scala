@@ -27,7 +27,7 @@ class UserDAOImpl @Inject() (val database: DatabaseConnector) (implicit context:
     * @param loginInfo The login info of the user to find.
     * @return The found user or None if no user for the given login info could be found.
     */
-  def find(loginInfo: LoginInfo) = Future.successful(
+  override def find(loginInfo: LoginInfo) = Future.successful(
     run(users.filter { data =>
       (data.providerId == lift(loginInfo.providerID)) && data.providerKey.compareLowerCase(lift(loginInfo.providerKey))
     }).headOption
@@ -39,7 +39,7 @@ class UserDAOImpl @Inject() (val database: DatabaseConnector) (implicit context:
     * @param userID The ID of the user to find.
     * @return The found user or None if no user for the given ID could be found.
     */
-  def find(userID: UUID) = Future.successful(
+  override def find(userID: UUID) = Future.successful(
     run(users.filter(_.id == lift(userID))).headOption
   )
 
@@ -49,14 +49,14 @@ class UserDAOImpl @Inject() (val database: DatabaseConnector) (implicit context:
     * @param loginInfo The login info of the user to find.
     * @return true jeżeli nie istnieje w bazie użytkownik o podanych danych
     */
-  def isUnique(loginInfo: LoginInfo) = find(loginInfo).map(_.isEmpty)
+  private def isUnique(loginInfo: LoginInfo) = find(loginInfo).map(_.isEmpty)
 
   /**
     * Zlicza ilość użytkowników w bazie
     *
     * @return ilość użytkowników
     */
-  def count = Future.successful(run(users.size))
+  override def count = Future.successful(run(users.size))
 
   /**
     * Saves a user.
@@ -64,7 +64,7 @@ class UserDAOImpl @Inject() (val database: DatabaseConnector) (implicit context:
     * @param userData The user to save.
     * @return The saved user.
     */
-  def save(userData: User) = transaction {
+  override def save(userData: User) = transaction {
     isUnique(userData.loginInfo).map { isUnique =>
       if (isUnique) {
         run(users.insert(lift(userData)))
