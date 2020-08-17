@@ -2,8 +2,14 @@
 
 @main(article.title) {
 
+    <div class="row article">
+        <div class="col-12 article-photo">
+            <div class="img-fluid rounded-bottom rounded-top mb-1"  style="background-image: url(@routes.FileController.photo(article.leadPhoto));"></div>
+        </div>
+    </div>
+
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 text-justify">
             @article.content
         </div>
     </div>

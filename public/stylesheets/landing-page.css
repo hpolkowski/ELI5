@@ -106,6 +106,20 @@ header.masthead h1 {
   box-shadow: 0px 5px 5px 0px #adb5bd;
 }
 
+.article {
+  padding-bottom: 4rem;
+}
+
+.article .article-photo .img-fluid {
+  /*max-width: 12rem;*/
+  width: 100%;
+  padding-top: 35%;
+  position: relative;
+  background-size: cover;
+  background-position: 50% 50%;
+  box-shadow: 0px 5px 5px 0px #adb5bd;
+}
+
 .call-to-action {
   position: relative;
   background-color: #343a40;
