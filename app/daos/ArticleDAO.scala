@@ -51,11 +51,12 @@ trait ArticleDAO {
   /**
     * Zwraca listę artykułów przefiltrowaną, posortowaną z podziałem na strony
     *
-    * @param page     aktualna strona
-    * @param pageSize ilość elementów na stronie
-    * @param orderBy  sortowanie
-    * @param filter   filtrowanie
+    * @param page       aktualna strona
+    * @param pageSize   ilość elementów na stronie
+    * @param orderBy    sortowanie
+    * @param filter     filtrowanie
+    * @param onlyActive jeżeli true to wyszukuje tylko aktywnych artykułów
     * @return lista artykułów
     */
-  def list(page: Int = 1, pageSize: Int = 10, orderBy: Int = 1, filter: String = "%"): Future[Page[Article]]
+  def list(page: Int = 1, pageSize: Int = 10, orderBy: Int = 1, filter: String = "%", onlyActive: Boolean = false): Future[Page[Article]]
 }

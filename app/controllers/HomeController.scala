@@ -4,7 +4,7 @@ import javax.inject._
 import play.api.data.{Form, Forms}
 import play.api.i18n.I18nSupport
 import play.api.mvc._
-import services.{ArticleService, HomeService}
+import services.HomeService
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -14,8 +14,7 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class HomeController @Inject()(
   components: ControllerComponents,
-  homeService: HomeService,
-  articleService: ArticleService
+  homeService: HomeService
 )(
   implicit
   assets: AssetsFinder,
@@ -25,33 +24,27 @@ class HomeController @Inject()(
   val Home = Redirect(routes.HomeController.index())
 
   /**
-    * Główna strona aplikacji
+    * Lista artykułów
     *
     * @param page     aktualna strona
-    * @param pageSize rozmiar strony
-    * @param orderBy  parametr sortowania
     * @param filter   filtry
     */
-  def index(page: Int, pageSize: Int, orderBy: Int, filter: String) = Action.async { implicit request =>
-    articleService.list(page, pageSize, orderBy, filter).map { articles =>
+  def index(page: Int, filter: String) = Action.async { implicit request =>
+    homeService.listArticle(page, filter).map { articles =>
       Ok(views.html.index(articles, filter))
     }
   }
 
   /**
-    * Główna strona aplikacji
-    *
-    * @param page     aktualna strona
-    * @param pageSize rozmiar strony
-    * @param orderBy  parametr sortowania
+    * Przeszukiwanie listy artykułów
     */
-  def search(page: Int, pageSize: Int, orderBy: Int) = Action.async { implicit request =>
+  def search = Action.async { implicit request =>
 
     Form("search" -> Forms.text).bindFromRequest().fold(
       formWithErrors => Future.successful(Home),
 
       filter =>
-        articleService.list(page, pageSize, orderBy, filter).map { articles =>
+        homeService.listArticle(1, filter).map { articles =>
           Ok(views.html.index(articles, filter))
         }
     )
@@ -63,7 +56,7 @@ class HomeController @Inject()(
     * @param url adres artykułu
     */
   def details(url: String) = Action.async { implicit request =>
-    articleService.retrieve(url).map {
+    homeService.retrieveArticle(url).map {
 
       case Some(article) =>
         Ok(views.html.details(article))

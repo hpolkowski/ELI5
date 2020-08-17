@@ -1,7 +1,8 @@
 package services
 
-import daos.NewsletterDAO
+import daos.{ArticleDAO, NewsletterDAO}
 import javax.inject.Inject
+import models.{Article, Page}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -9,7 +10,8 @@ import scala.concurrent.{ExecutionContext, Future}
   * Serwis obsługujący zadania głównej strony aplikacji
   */
 class HomeServiceImpl @Inject()(
-  newsletterDAO: NewsletterDAO
+  newsletterDAO: NewsletterDAO,
+  articleDAO: ArticleDAO
 )(
   implicit
   context: ExecutionContext
@@ -30,4 +32,20 @@ class HomeServiceImpl @Inject()(
     }
   }
 
+  /**
+    * Zwraca listę aktywnych artykułów
+    *
+    * @param page   numer strony
+    * @param filter tekst filtrowania
+    */
+  override def listArticle(page: Int, filter: String): Future[Page[Article]] = {
+    articleDAO.list(page, 12, 0, filter, onlyActive = true)
+  }
+
+  /**
+    * Wyszukuje artykułu po url
+    *
+    * @param url url artykułu
+    */
+  override def retrieveArticle(url: String): Future[Option[Article]] = articleDAO.find(url)
 }

@@ -39,7 +39,7 @@
 					<td>@messages(article.state.toString)</td>
 					<td>@FormatHelper.formatDate(article.createDate)</td>
 					<td>@FormatHelper.formatDate(article.editDate)</td>
-					<td><a href="@routes.ArticleController.edit(article.id)" class="btn btn-primary btn-sm btn-block">@Messages("button.edit")</a></td>
+					<td><a href="@routes.ArticleController.edit(article.id)" class="btn btn-primary btn-sm btn-block @if(loggedIn.isCreator && !article.isToReview){disabled}">@Messages("button.edit")</a></td>
 				</tr>
 			}
 		</tbody>
