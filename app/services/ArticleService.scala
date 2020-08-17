@@ -5,7 +5,7 @@ import java.util.UUID
 import com.mohiva.play.silhouette.api.repositories.AuthInfoRepository
 import com.mohiva.play.silhouette.api.services.IdentityService
 import com.mohiva.play.silhouette.api.util.PasswordHasherRegistry
-import models.{Page, Article}
+import models.{Article, Page, User}
 import utils.RoleType.RoleType
 
 import scala.concurrent.Future
@@ -59,7 +59,8 @@ trait ArticleService {
     * @param pageSize ilość elementów na stronie
     * @param orderBy  sortowanie
     * @param filter   filtrowanie
+    * @param owner    twórca artykułu
     * @return lista artykułów
     */
-  def list(page: Int = 1, pageSize: Int = 10, orderBy: Int = 1, filter: String = "%"): Future[Page[Article]]
+  def list(page: Int = 1, pageSize: Int = 10, orderBy: Int = 1, filter: String = "%", owner: Option[User] = None): Future[Page[Article]]
 }

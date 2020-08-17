@@ -3,7 +3,7 @@ import java.util.UUID
 
 import database.{DatabaseConnector, QueryExtension}
 import javax.inject.Inject
-import models.{Article, Page}
+import models.{Article, Page, User}
 import utils.ArticleState
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -73,18 +73,25 @@ class ArticleDAOImpl @Inject() (val database: DatabaseConnector) (implicit conte
     * @param orderBy    sortowanie
     * @param filter     filtrowanie
     * @param onlyActive jeżeli true to wyszukuje tylko aktywnych artykułów
+    * @param owner    twórca artykułu
     * @return lista artykułów
     */
-  override def list(page: Int, pageSize: Int, orderBy: Int, filter: String, onlyActive: Boolean): Future[Page[Article]] = {
+  override def list(page: Int, pageSize: Int, orderBy: Int, filter: String, onlyActive: Boolean, owner: Option[User]): Future[Page[Article]] = {
     val query: Quoted[Query[Article]] = articles
 
     val onlyActiveQuery = if(onlyActive)
       quote(query.filter(_.state == lift(ArticleState.ACTIVE)))
     else query
 
+    val ownerQuery = owner.map { user =>
+      quote(onlyActiveQuery.filter(_.creatorId == lift(user.id)))
+    }.getOrElse {
+      onlyActiveQuery
+    }
+
     val filteredQuery = if (filter.nonEmpty)
-      quote(onlyActiveQuery.filter { data => data.title likeLowerCase lift(s"%$filter%") })
-    else onlyActiveQuery
+      quote(ownerQuery.filter { data => data.title likeLowerCase lift(s"%$filter%") })
+    else ownerQuery
 
     val sortedQuery: Quoted[Query[Article]] = orderBy match {
       case 1 => filteredQuery.sortBy(_.title)

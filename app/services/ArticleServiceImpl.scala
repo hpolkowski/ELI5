@@ -4,7 +4,7 @@ import java.util.UUID
 
 import daos.ArticleDAO
 import javax.inject.Inject
-import models.{Article, Page}
+import models.{Article, Page, User}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -57,8 +57,9 @@ class ArticleServiceImpl @Inject()(articleDAO: ArticleDAO)(implicit context: Exe
     * @param pageSize ilość elementów na stronie
     * @param orderBy  sortowanie
     * @param filter   filtrowanie
+    * @param owner    twórca artykułu
     * @return lista artykułów
     */
-  override def list(page: Int, pageSize: Int, orderBy: Int, filter: String): Future[Page[Article]] =
-    articleDAO.list(page, pageSize, orderBy, filter)
+  override def list(page: Int, pageSize: Int, orderBy: Int, filter: String, owner: Option[User] = None): Future[Page[Article]] =
+    articleDAO.list(page, pageSize, orderBy, filter, owner = owner)
 }

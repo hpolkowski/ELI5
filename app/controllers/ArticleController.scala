@@ -46,7 +46,7 @@ class ArticleController @Inject()(
   def list(page: Int, pageSize: Int, orderBy: Int, filter: String) = silhouette.SecuredAction(WithRoles(Seq(RoleType.ADMIN, RoleType.MODERATOR, RoleType.CREATOR))).async { implicit request =>
     implicit val loggedIn: User = request.identity
 
-    articleService.list(page, pageSize, orderBy, filter).map { articleList =>
+    articleService.list(page, pageSize, orderBy, filter, owner = if(loggedIn.isCreator) Some(loggedIn) else None).map { articleList =>
       Ok(views.html.admin.article.list(articleList, orderBy, filter))
     }
   }
