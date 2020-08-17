@@ -49,14 +49,20 @@ class ArticleDAOImpl @Inject() (val database: DatabaseConnector) (implicit conte
     *
     * @param data artykuł do aktualizacji
     */
-  override def update(data: Article): Future[Unit] =
-    Future.successful(run(articles.filter(_.id == lift(data.id)).update(
+  override def update(data: Article): Future[Unit] = transaction {
+    run(articles.filter(_.id == lift(data.id)).update(
       _.title -> lift(data.title),
       _.url -> lift(data.url),
       _.state -> lift(data.state),
       _.content -> lift(data.content),
       _.editDate -> lift(data.editDate)
-    )))
+    ))
+
+    if(data.leadPhoto.nonEmpty)
+      run(articles.filter(_.id == lift(data.id)).update(_.leadPhoto -> lift(data.leadPhoto)))
+
+    Future.successful()
+  }
 
   /**
     * Zlicza ilość artykułów w bazie

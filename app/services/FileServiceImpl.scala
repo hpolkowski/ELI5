@@ -1,5 +1,7 @@
 package services
 import java.nio.file.Files
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 import bootstrap.AppConfig
 import javax.inject.Inject
@@ -18,17 +20,16 @@ class FileServiceImpl @Inject()(appConfig: AppConfig) extends FileService {
     * @return na lewo błąd, na prawo adres zapisanego pliku
     */
   override def save(data: MultipartFormData.FilePart[TemporaryFile]): Either[String, String] = if(data.filename.trim.nonEmpty)  {
-    val directory = s"${appConfig.filePath}${(Math.random * 1000000000L).toLong}/"
-    val filename = s"thumbnail.png"
-    val pathname = s"$directory$filename"
+    val pathname = s"${LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYYMMddHHmmss"))}${(Math.random * 100000L).toLong}"
+    val filename = "thumbnail.png"
 
-    new java.io.File(directory).mkdirs()
+    new java.io.File(s"${appConfig.filePath}$pathname").mkdirs()
 
-    val file = new java.io.File(pathname)
+    val file = new java.io.File(s"${appConfig.filePath}$pathname/$filename")
 
     Files.copy(data.ref.path, file.toPath)
 
-    Right(pathname)
+    Right(s"$pathname/$filename")
   } else
     Left("error.file.filename.empty")
 

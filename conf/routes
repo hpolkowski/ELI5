@@ -9,6 +9,9 @@ POST    /                                                   controllers.HomeCont
 GET     /article/:url                                       controllers.HomeController.details(url: String)
 POST    /newsletter/signup                                  controllers.HomeController.newsletterSignUp
 
+# Files
+GET     /photos/*path                                       controllers.FileController.photo(path: String)
+
 # Auth
 GET		/login												controllers.AuthController.login
 POST	/login												controllers.AuthController.authenticate
