@@ -69,6 +69,7 @@ class SilhouetteModule extends AbstractModule with ScalaModule {
     bind[ArticleService].to[ArticleServiceImpl]
     bind[MailerService].to[MailerServiceImpl]
     bind[HomeService].to[HomeServiceImpl]
+    bind[FileService].to[FileServiceImpl]
 
     // DAOs
     bind[UserDAO].to[UserDAOImpl]

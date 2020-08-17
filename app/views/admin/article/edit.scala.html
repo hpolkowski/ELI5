@@ -19,15 +19,16 @@
 	<div class="row">
 		<div class="offset-xl-3 col-xl-6 offset-lg-2 col-lg-8 offset-sm-1 col-sm-10">
 			@card('title -> "article.edit.header") {
-				@helper.form(controllers.routes.ArticleController.update(id)) {
+				@helper.form(controllers.routes.ArticleController.update(id), 'enctype -> "multipart/form-data") {
 					<div class="col-sm-12">
 						@helper.CSRF.formField
-						@b4.text(form("title"), '_label -> messages("article.create.title.label"), 'readonly -> readonly)
+						@b4.text(form("title"), '_label -> "article.create.title.label", 'readonly -> readonly)
+						@b4.file(form("leadPhoto"), '_label -> "article.create.leadPhoto.label")
 						@if(loggedIn.isModerator || loggedIn.isAdmin) {
-							@b4.text(form("url"), '_label -> messages("article.create.url.label"))
-							@b4.select(form("state"), FormHelper.allArticleStates, '_label -> messages("article.create.state.label"))
+							@b4.text(form("url"), '_label -> "article.create.url.label")
+							@b4.select(form("state"), FormHelper.allArticleStates, '_label -> "article.create.state.label")
 						}
-						@b4.textarea(form("content"), '_label -> messages("article.create.content.label"), 'rows -> 10, 'readonly -> readonly)
+						@b4.textarea(form("content"), '_label -> "article.create.content.label", 'rows -> 10, 'readonly -> readonly)
 					</div>
 
 					@if(!readonly) {

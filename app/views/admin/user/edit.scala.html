@@ -22,9 +22,9 @@
 				@helper.form(action = controllers.routes.UserController.update(id)) {
 					<div class="col-sm-12">
 						@helper.CSRF.formField
-						@b4.email(form("email"), '_label -> messages("user.create.email.label"))
-						@b4.select(form("role"), FormHelper.allRoleTypeOptions, '_label -> messages("user.create.role.label"))
-						@b4.text(form("fullName"), '_label -> messages("user.create.name.label"))
+						@b4.email(form("email"), '_label -> "user.create.email.label")
+						@b4.select(form("role"), FormHelper.allRoleTypeOptions, '_label -> "user.create.role.label")
+						@b4.text(form("fullName"), '_label -> "user.create.name.label")
 					</div>
 
 					<div class="col-sm-6">

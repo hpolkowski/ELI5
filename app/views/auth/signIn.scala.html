@@ -40,8 +40,8 @@
                     <div class="login-form">
                         @helper.form(action = controllers.routes.AuthController.authenticate()) {
                             @helper.CSRF.formField
-                            @b4.email(form("email"), '_label -> messages("auth.email"), 'placeholder -> messages("auth.email"))
-                            @b4.password(form("password"), '_label -> messages("auth.password"), 'placeholder -> messages("auth.password"))
+                            @b4.email(form("email"), '_label -> "auth.email", 'placeholder -> "auth.email")
+                            @b4.password(form("password"), '_label -> "auth.password", 'placeholder -> "auth.password")
 
                             <button type="submit" value="submit" class="btn btn-success btn-flat mb-3 mt-3">@messages("auth.sign.in")</button>
 

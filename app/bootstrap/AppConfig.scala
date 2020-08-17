@@ -15,4 +15,6 @@ class AppConfig @Inject()(config: Configuration) {
   val contactEmail = config.getOptional[String]("play.mailer.email.contact").getOrElse("contact@eli5.com")
 
   val noReplyEmail = config.getOptional[String]("play.mailer.email.no-reply").getOrElse("no-reply@eli5.com")
+
+  val filePath = config.getOptional[String]("app.fileSystem.basePath").getOrElse("eli5_files/")
 }

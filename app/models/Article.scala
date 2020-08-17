@@ -13,6 +13,7 @@ import utils.ArticleState
   * @param id         unikalny identyfikator artykułu
   * @param creatorId  identyfikator użytkownika który dodał artykuł
   * @param url        adres url artykułu
+  * @param leadPhoto  główne zdjęcie
   * @param title      tytuł artykułu
   * @param content    zawartość artykułu
   * @param state      status artykułu
@@ -23,6 +24,7 @@ case class Article(
   id: UUID,
   creatorId: UUID,
   url: String,
+  leadPhoto: String,
   title: String,
   content: String,
   state: ArticleState.ArticleState,

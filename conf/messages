@@ -17,6 +17,7 @@ utils.label.actions=Actions
 error.double=Invalid numeric value
 error.enum=Invalid option
 error.illegalCharacters=Use only small and big letters, numbers and underscores
+error.file.filename.empty=File can't be empty
 
 # Role użytkowników
 ADMIN=ADMINISTRATOR
@@ -87,6 +88,7 @@ article.list.editDate=Updated
 article.create.title=Create new article
 article.create.header=New article
 article.create.title.label=Title
+article.create.leadPhoto.label=Lead photo
 article.create.url.label=Url
 article.create.state.label=State
 article.create.content.label=Content

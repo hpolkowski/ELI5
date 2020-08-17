@@ -7,9 +7,10 @@ import com.mohiva.play.silhouette.api.Silhouette
 import forms.CreateArticleForm
 import javax.inject._
 import models.User
+import play.api.data.Form
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc._
-import services.ArticleService
+import services.{ArticleService, FileService}
 import utils.RoleType
 import utils.auth.{CookieEnvironment, WithRoles}
 
@@ -22,7 +23,8 @@ import scala.concurrent.{ExecutionContext, Future}
 class ArticleController @Inject()(
   components: ControllerComponents,
   silhouette: Silhouette[CookieEnvironment],
-  articleService: ArticleService
+  articleService: ArticleService,
+  fileService: FileService
 )(
   implicit
   appConfig: AppConfig,
@@ -65,15 +67,24 @@ class ArticleController @Inject()(
     */
   def save = silhouette.SecuredAction(WithRoles(Seq(RoleType.ADMIN, RoleType.MODERATOR, RoleType.CREATOR))).async { implicit request =>
     implicit val loggedIn: User = request.identity
+
+    def badRequest(formWithErrors: Form[CreateArticleForm]) = Future.successful(BadRequest(views.html.admin.article.create(formWithErrors)))
     
     CreateArticleForm.form.bindFromRequest.fold(
-      formWithErrors =>
-        Future.successful(BadRequest(views.html.admin.article.create(formWithErrors))),
+      formWithErrors => badRequest(formWithErrors),
 
-      data => {
-        articleService.save(data.toArticle).map { _ =>
-          Home.flashing("success" -> "article.save.success")
-        }
+      data => request.body.asMultipartFormData.flatMap(_.file("leadPhoto")).map(fileService.save).map {
+
+        case Left(error) =>
+          badRequest(CreateArticleForm.form.fill(data).withError("leadPhoto", error))
+
+        case Right(filepath) =>
+          articleService.save(data.toArticle(filepath)).map { _ =>
+            Home.flashing("success" -> "article.save.success")
+          }
+
+      }.getOrElse {
+        badRequest(CreateArticleForm.form.fill(data).withError("leadPhoto", "error.file.filename.empty"))
       }
     )
   }
@@ -103,13 +114,24 @@ class ArticleController @Inject()(
   def update(id: UUID) = silhouette.SecuredAction(WithRoles(Seq(RoleType.ADMIN, RoleType.MODERATOR, RoleType.CREATOR))).async { implicit request =>
     implicit val loggedIn: User = request.identity
 
+    def badRequest(formWithErrors: Form[CreateArticleForm]) = Future.successful(BadRequest(views.html.admin.article.edit(id, formWithErrors)))
+
     CreateArticleForm.form.bindFromRequest.fold(
 
-      formWithErrors =>
-        Future.successful(BadRequest(views.html.admin.article.edit(id, formWithErrors))),
+      formWithErrors => badRequest(formWithErrors),
 
       data => {
-        articleService.update(data.toArticle(id)).map { _ =>
+        val filepath = request.body.asMultipartFormData.flatMap(_.file("leadPhoto")).map(fileService.save).flatMap {
+
+          case Left(_) =>
+            None
+
+          case Right(filepath) =>
+            Some(filepath)
+
+        }.getOrElse("")
+
+        articleService.update(data.toArticle(id, filepath)).map { _ =>
           Home.flashing("success" -> "article.update.success")
         }
       }

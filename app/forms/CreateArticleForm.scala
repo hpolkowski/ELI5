@@ -28,18 +28,21 @@ case class CreateArticleForm (
   /**
     * Konwertuje dane z formularza na obiekt
     *
-    * @param id identyfikator artykułu jeżeli istnieje
+    * @param  id identyfikator artykułu jeżeli istnieje
+    * @param  filepath ścieżka do zdjęcia głównego artykułu
     * @return obiekt artykułu
     */
-  def toArticle(id: UUID )(implicit loggedIn: User): Article =
-    Article(id, loggedIn.id, url.getOrElse(""), title, content, state.getOrElse(ArticleState.TO_REVIEW), LocalDateTime.now, LocalDateTime.now)
+  def toArticle(id: UUID, filepath: String)(implicit loggedIn: User): Article =
+    Article(id, loggedIn.id, url.getOrElse(""), filepath, title, content, state.getOrElse(ArticleState.TO_REVIEW),
+      LocalDateTime.now, LocalDateTime.now)
 
   /**
     * Konwertuje dane z formularza na obiekt
     *
+    * @param  filepath ścieżka do zdjęcia głównego artykułu
     * @return obiekt artykułu
     */
-  def toArticle(implicit loggedIn: User): Article = toArticle(UUID.randomUUID())
+  def toArticle(filepath: String)(implicit loggedIn: User): Article = toArticle(UUID.randomUUID(), filepath)
 }
 
 /**

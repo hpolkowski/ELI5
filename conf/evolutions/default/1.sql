@@ -17,6 +17,7 @@ CREATE TABLE Articles (
 	id                   			UUID      UNIQUE  NOT NULL,
 	creator_id                   	UUID        	  NOT NULL,
 	url                 			CHARACTER VARYING NOT NULL,
+	lead_photo                      CHARACTER VARYING NOT NULL,
 	title          			        CHARACTER VARYING NOT NULL,
 	content         			    CHARACTER VARYING NOT NULL,
 	state             			    CHARACTER VARYING NOT NULL,
