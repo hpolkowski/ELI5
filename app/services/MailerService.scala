@@ -16,7 +16,7 @@ trait MailerService {
     *
     * @param recipient adresat wiadomości
     */
-  def sendPasswordResetTokenAfterAccountCreation(recipient: User, resetPasswordToken: String): Unit
+  def sendPasswordResetTokenAfterAccountCreation(recipient: User): Unit
 
   /**
     * Wysyła wiadomość z linkiem do zmiany hasła

@@ -88,7 +88,7 @@ class UserController @Inject()(
           user <- userService.save(userData)
           _ <- authInfoRepository.add(userData.loginInfo, passwordHasherRegistry.current.hash(userData.password))
         } yield user.map { user =>
-          userService.generateResetPasswordToken(user.id).foreach(_.foreach(mailerService.sendPasswordResetToken))
+          userService.generateResetPasswordToken(user.id).foreach(_.foreach(mailerService.sendPasswordResetTokenAfterAccountCreation))
           Home.flashing("success" -> Messages("user.create.success", user.email))
         }.getOrElse {
           Home.flashing("failure" -> Messages("users.create.exists", userData.email))

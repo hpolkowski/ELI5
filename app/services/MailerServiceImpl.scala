@@ -16,7 +16,7 @@ class MailerServiceImpl @Inject()(mailerClient: MailerClient, appConfig: AppConf
     *
     * @param recipient adresat wiadomości
     */
-  override def sendPasswordResetTokenAfterAccountCreation(recipient: User, resetPasswordToken: String) = {
+  override def sendPasswordResetTokenAfterAccountCreation(recipient: User): Unit = recipient.resetPasswordToken.foreach { resetPasswordToken =>
     val url = s"http://${appConfig.appDomain}${routes.UserController.resetPassword(recipient.id, resetPasswordToken)}"
     val email = Email(
       subject = "Welcome in ELI5 team",
@@ -40,7 +40,7 @@ class MailerServiceImpl @Inject()(mailerClient: MailerClient, appConfig: AppConf
     *
     * @param recipient adresat wiadomości
     */
-  override def sendPasswordResetToken(recipient: User) = recipient.resetPasswordToken.foreach { resetPasswordToken =>
+  override def sendPasswordResetToken(recipient: User): Unit = recipient.resetPasswordToken.foreach { resetPasswordToken =>
     val url = s"http://${appConfig.appDomain}${routes.UserController.resetPassword(recipient.id, resetPasswordToken)}"
     val email = Email(
       subject = "ELI5 change password",

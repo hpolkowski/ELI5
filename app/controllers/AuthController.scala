@@ -1,6 +1,6 @@
 package controllers
 
-import _root_.services.UserService
+import _root_.services.{UserService, MailerService}
 import bootstrap.AppConfig
 import com.mohiva.play.silhouette.api._
 import com.mohiva.play.silhouette.api.actions.SecuredRequest
@@ -24,6 +24,7 @@ class AuthController @Inject()(
   components: ControllerComponents,
   silhouette: Silhouette[CookieEnvironment],
   userService: UserService,
+  mailerService: MailerService,
   credentialsProvider: CredentialsProvider
 )(
   implicit
@@ -111,7 +112,12 @@ class AuthController @Inject()(
           user <- optionalUser
         } yield for {
           successUser <- userService.generateResetPasswordToken(user.id)
-        } yield successUser
+        } yield for {
+          tokenUser <- successUser
+        } yield {
+          mailerService.sendPasswordResetToken(tokenUser)
+        }
+
 
         Login.flashing("success" -> Messages("auth.requestResetPassword.success"))
       }
