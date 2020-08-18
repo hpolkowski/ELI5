@@ -9,6 +9,7 @@ import com.mohiva.play.silhouette.impl.providers.CredentialsProvider
 import daos.UserDAO
 import javax.inject.Inject
 import models.User
+import utils.FutureUtils
 import utils.RoleType.RoleType
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -121,6 +122,24 @@ class UserServiceImpl @Inject()(userDAO: UserDAO)(implicit context: ExecutionCon
     * @return obiekt użytkownika
     */
   override def generateResetPasswordToken(id: UUID): Future[Option[User]] = userDAO.generateResetPasswordToken(id)
+
+  /**
+    * Generuje token zmiany hasła użytkownika
+    *
+    * @param email adres email
+    * @return obiekt użytkownika jeżeli został odnaleziony
+    */
+  override def generateResetPasswordToken(email: String): Future[Option[User]] = {
+    val result = for {
+      optionalUser <- userDAO.find(email)
+    } yield for {
+      user <- optionalUser
+    } yield {
+      generateResetPasswordToken(user.id)
+    }
+
+    FutureUtils.flatFutureOption(result)
+  }
 
   /**
     * Wyszukuje użytkowników względem roli w systemie

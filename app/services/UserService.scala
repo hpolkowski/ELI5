@@ -93,6 +93,14 @@ trait UserService extends IdentityService[User] {
   def generateResetPasswordToken(id: UUID): Future[Option[User]]
 
   /**
+    * Generuje token zmiany hasła użytkownika
+    *
+    * @param email adres email
+    * @return obiekt użytkownika jeżeli został odnaleziony
+    */
+  def generateResetPasswordToken(email: String): Future[Option[User]]
+
+  /**
     * Wyszukuje użytkowników względem roli w systemie
     *
     * @param role rola w systemie

@@ -100,26 +100,20 @@ class AuthController @Inject()(
   /**
     * Wysyła wiadomość z instrukcjami zmiany hasła
     */
-  def sendResetPassword = silhouette.UnsecuredAction { implicit request: Request[AnyContent] =>
+  def sendResetPassword = silhouette.UnsecuredAction.async { implicit request: Request[AnyContent] =>
     RequestResetPasswordForm.form.bindFromRequest.fold(
       formWithErrors =>
-        BadRequest(views.html.auth.requestResetPassword(formWithErrors)),
+        Future.successful(BadRequest(views.html.auth.requestResetPassword(formWithErrors))),
 
-      data => {
-        for {
-          optionalUser <- userService.retrieve(data.email)
-        } yield for {
-          user <- optionalUser
-        } yield for {
-          successUser <- userService.generateResetPasswordToken(user.id)
-        } yield for {
-          tokenUser <- successUser
-        } yield {
-          mailerService.sendPasswordResetToken(tokenUser)
-        }
+      data => userService.generateResetPasswordToken(data.email).map {
 
+        case Some(user) =>
+          mailerService.sendPasswordResetToken(user)
+          Login.flashing("success" -> Messages("auth.requestResetPassword.success"))
 
-        Login.flashing("success" -> Messages("auth.requestResetPassword.success"))
+        case None =>
+          Login.flashing("success" -> Messages("auth.requestResetPassword.success"))
+
       }
     )
   }

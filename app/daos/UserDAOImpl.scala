@@ -22,24 +22,34 @@ class UserDAOImpl @Inject() (val database: DatabaseConnector) (implicit context:
   private val users = quote(querySchema[User]("users"))
 
   /**
-    * Finds a user by its login info.
+    * Wyszukuje użytkownika po danych logowania
     *
-    * @param loginInfo The login info of the user to find.
-    * @return The found user or None if no user for the given login info could be found.
+    * @param loginInfo dane logowania
+    * @return użytkownik jeżeli odnaleziono w przeciwnym wypadku None
     */
-  override def find(loginInfo: LoginInfo) = Future.successful(
+  override def find(loginInfo: LoginInfo): Future[Option[User]] = Future.successful(
     run(users.filter { data =>
       (data.providerId == lift(loginInfo.providerID)) && data.providerKey.compareLowerCase(lift(loginInfo.providerKey))
     }).headOption
   )
 
   /**
-    * Finds a user by its user ID.
+    * Wyszukuje użytkownika po adresie email
     *
-    * @param userID The ID of the user to find.
-    * @return The found user or None if no user for the given ID could be found.
+    * @param email adres do odnalezienia
+    * @return użytkownik jeżeli odnaleziono w przeciwnym wypadku None
     */
-  override def find(userID: UUID) = Future.successful(
+  override def find(email: String): Future[Option[User]] = Future.successful(
+    run(users.filter(_.providerKey == lift(email))).headOption
+  )
+
+  /**
+    * Wyszukuje użytkownika po identyfikatorze
+    *
+    * @param userID identyfikator
+    * @return użytkownik jeżeli odnaleziono w przeciwnym wypadku None
+    */
+  override def find(userID: UUID): Future[Option[User]] = Future.successful(
     run(users.filter(_.id == lift(userID))).headOption
   )
 
