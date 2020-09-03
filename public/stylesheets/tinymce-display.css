@@ -1,0 +1,6 @@
+.tox-tinymce {
+    border: 0;
+}
+.tox .tox-edit-area__iframe {
+    background-color: initial;
+}

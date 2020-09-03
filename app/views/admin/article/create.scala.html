@@ -3,16 +3,26 @@
 @import play.api.mvc.RequestHeader
 @import controllers.AssetsFinder
 @import forms.CreateArticleForm
-@import _root_.utils.FormHelper
 @import views.html.utils.errors.formGlobalErrors
 @import views.html.utils.notifications
 @import views.html.utils.components.card
-
 @(form: Form[CreateArticleForm])(implicit loggedIn: User, request: RequestHeader, messages: Messages, assets: AssetsFinder)
 
 @implicitFieldConstructor = @{ b4.vertical.fieldConstructor() }
 
-@admin.main('title -> messages("article.create.title")) {
+@scripts = {
+	<script src="@assets.path("lib/tinymce/tinymce.min.js")" type="text/javascript"></script>
+	<script>
+		tinymce.init({
+			selector: '#@form("content").id',
+			menubar: false,
+			height: 500,
+			plugins: 'image'
+		});
+	</script>
+}
+
+@admin.main('title -> messages("article.create.title"), 'scripts -> scripts) {
 	@notifications()
 	@formGlobalErrors(form)
 	<div class="row">
@@ -23,7 +33,7 @@
 						@helper.CSRF.formField
 						@b4.text(form("title"), '_label -> "article.create.title.label")
 						@b4.file(form("leadPhoto"), '_label -> "article.create.leadPhoto.label")
-						@b4.textarea(form("content"), '_label -> "article.create.content.label", 'rows -> 10)
+						@b4.textarea(form("content"), '_label -> "article.create.content.label")
 
 						<div class="form-group">
 							<div>

@@ -110,11 +110,6 @@ header.masthead h1 {
   padding-bottom: 4rem;
 }
 
-.article .article-content {
-  white-space: break-spaces;
-  text-align: initial !important
-}
-
 .article .article-photo .img-fluid {
   /*max-width: 12rem;*/
   width: 100%;

@@ -17,6 +17,7 @@
         <link rel="stylesheet" type="text/css" href="@assets.path("lib/simple-line-icons/css/simple-line-icons.css")">
         <link rel="stylesheet" type="text/css" href="@assets.path("stylesheets/landing-page.css")">
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+        @args.toMap.get('stylesheets)
     </head>
 
     <body>
@@ -127,6 +128,7 @@
         <script src="@assets.path("lib/jquery/jquery.min.js")"></script>
         <script src="@assets.path("lib/bootstrap/js/bootstrap.bundle.min.js")"></script>
         <script src="@assets.path("javascripts/landing-page.js")"></script>
+        @args.toMap.get('scripts)
     </body>
 
 </html>

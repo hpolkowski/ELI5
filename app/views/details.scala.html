@@ -1,6 +1,22 @@
 @(article: Article)(implicit request: RequestHeader, messages: Messages, assets: AssetsFinder)
 
-@main(article.title) {
+@scripts = {
+    <link rel="stylesheet" type="text/css" href="@assets.path("stylesheets/tinymce-display.css")">
+    <script src="@assets.path("lib/tinymce/tinymce.min.js")" type="text/javascript"></script>
+    <script>
+            tinymce.init({
+                selector: '#article-content',
+                readonly: true,
+                toolbar: "",
+                menubar: false,
+                statusbar: false,
+                plugins: 'autoresize',
+                content_css : '@assets.path("stylesheets/tinymce-display.css")'
+            });
+    </script>
+}
+
+@main(article.title, 'scripts -> scripts) {
 
     <div class="row article">
         <div class="col-12 article-photo">
@@ -9,6 +25,8 @@
     </div>
 
     <div class="row article">
-        <div class="col-12 article-content">@article.content</div>
+        <div class="col-12 article-content">
+            <input id="article-content" value="@article.content">
+        </div>
     </div>
 }

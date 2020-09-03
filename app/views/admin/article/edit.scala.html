@@ -13,7 +13,21 @@
 
 @implicitFieldConstructor = @{ b4.vertical.fieldConstructor() }
 
-@admin.main('title -> "article.edit.title") {
+@scripts = {
+	<script src="@assets.path("lib/tinymce/tinymce.min.js")" type="text/javascript"></script>
+	<script>
+			tinymce.init({
+				selector: '#@form("content").id',
+				menubar: false,
+				height: 500,
+				a11y_advanced_options: true,
+				plugins: 'image, lists',
+				toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | outdent indent | image'
+			});
+	</script>
+}
+
+@admin.main('title -> "article.edit.title", 'scripts -> scripts) {
 	@notifications()
 	@formGlobalErrors(form)
 	<div class="row">
@@ -22,13 +36,13 @@
 				@helper.form(controllers.routes.ArticleController.update(id), 'enctype -> "multipart/form-data") {
 					<div class="col-sm-12">
 						@helper.CSRF.formField
-						@b4.text(form("title"), '_label -> "article.create.title.label", 'readonly -> readonly)
+						@b4.text(form("title"), '_label -> "article.create.title.label")
 						@b4.file(form("leadPhoto"), '_label -> "article.create.leadPhoto.label")
 						@if(loggedIn.isModerator || loggedIn.isAdmin) {
 							@b4.text(form("url"), '_label -> "article.create.url.label")
 							@b4.select(form("state"), FormHelper.allArticleStates, '_label -> "article.create.state.label")
 						}
-						@b4.textarea(form("content"), '_label -> "article.create.content.label", 'rows -> 10, 'readonly -> readonly)
+						@b4.textarea(form("content"), '_label -> "article.create.content.label")
 					</div>
 
 					@if(!readonly) {

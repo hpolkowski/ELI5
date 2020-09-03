@@ -21,6 +21,7 @@
         <link rel="stylesheet" type="text/css" href="@assets.path("stylesheets/main.css")">
 
 		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+        @args.toMap.get('stylesheets)
 	</head>
 
     <body>
@@ -99,5 +100,6 @@
         <script src="@assets.path("lib/popper.js/umd/popper.min.js")"></script>
         <script src="@assets.path("lib/bootstrap/js/bootstrap.min.js")"></script>
         <script src="@assets.path("javascripts/main.js")"></script>
+        @args.toMap.get('scripts)
     </body>
 </html>
