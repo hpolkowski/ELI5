@@ -34,12 +34,14 @@
 						@b4.text(form("title"), '_label -> "article.create.title.label")
 						@b4.file(form("leadPhoto"), '_label -> "article.create.leadPhoto.label")
 						@b4.textarea(form("content"), '_label -> "article.create.content.label")
+					</div>
 
-						<div class="form-group">
-							<div>
-								<button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block mt-3">@messages("button.save")</button>
-							</div>
-						</div>
+					<div class="col-6">
+						<button class="btn btn-lg btn-info btn-block mt-3" onclick="articlePreview(this, '@routes.ArticleController.preview')">@messages("button.preview")</button>
+					</div>
+
+					<div class="col-6">
+						<button type="submit" value="submit" class="btn btn-lg btn-primary btn-block mt-3">@messages("button.save")</button>
 					</div>
 				}
 			}

@@ -184,3 +184,9 @@ footer.footer {
   opacity: 1;
   visibility: visible;
 }
+
+/* Wygląd końcowy tekstu Tinymce */
+.tinymce-content-body img {
+  max-width: 100%;
+  height: auto;
+}

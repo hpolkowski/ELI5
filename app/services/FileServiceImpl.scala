@@ -16,11 +16,12 @@ class FileServiceImpl @Inject()(appConfig: AppConfig) extends FileService {
   /**
     * Zapisuje plik na dysku
     *
-    * @param data dane pliku z requestu
+    * @param data    dane pliku z requestu
+    * @param subpath dodatkowa ścieżka do zapisu pliku
     * @return na lewo błąd, na prawo adres zapisanego pliku
     */
-  override def save(data: MultipartFormData.FilePart[TemporaryFile]): Either[String, String] = if(data.filename.trim.nonEmpty)  {
-    val pathname = s"${LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYYMMddHHmmss"))}${(Math.random * 100000L).toLong}"
+  override def save(data: MultipartFormData.FilePart[TemporaryFile], subpath: String): Either[String, String] = if(data.filename.trim.nonEmpty)  {
+    val pathname = s"$subpath${LocalDateTime.now.format(DateTimeFormatter.ofPattern("YYYYMMddHHmmss"))}${(Math.random * 100000L).toLong}"
     val filename = "thumbnail.png"
 
     new java.io.File(s"${appConfig.filePath}$pathname").mkdirs()

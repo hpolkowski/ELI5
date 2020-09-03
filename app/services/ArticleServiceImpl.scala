@@ -5,6 +5,7 @@ import java.util.UUID
 import daos.ArticleDAO
 import javax.inject.Inject
 import models.{Article, Page, User}
+import org.owasp.html.Sanitizers
 
 import scala.concurrent.{ExecutionContext, Future}
 

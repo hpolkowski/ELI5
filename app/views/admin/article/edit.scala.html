@@ -45,9 +45,13 @@
 						@b4.textarea(form("content"), '_label -> "article.create.content.label")
 					</div>
 
+					<div class="col-6">
+						<button class="btn btn-lg btn-info btn-block mt-3" onclick="articlePreview(this, '@routes.ArticleController.previewById(id)')">@messages("button.preview")</button>
+					</div>
+
 					@if(!readonly) {
-						<div class="offset-6 col-6">
-							<button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block mt-3">@messages("button.save")</button>
+						<div class="col-6">
+							<button type="submit" value="submit" class="btn btn-lg btn-primary btn-block mt-3">@messages("button.save")</button>
 						</div>
 					}
 				}

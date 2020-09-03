@@ -5,6 +5,7 @@ button.edit=Edit
 button.add=Add
 button.create-new=Create new
 button.actions=Actions
+button.preview=Preview
 
 # Dodatkowe
 utils.alert.success=Success!
@@ -97,6 +98,7 @@ article.edit.header=Edit article
 article.edit.url.empty=Url field can''t be empty!
 article.save.success=Article successfully submited.
 article.edit.notFound=Article not found.
+article.details.notFound=Article not found.
 article.update.success=Article successfully updated.
 
 # Landing
