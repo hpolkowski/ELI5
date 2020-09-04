@@ -12,7 +12,9 @@
             @Html(article.content)
         </div>
 
-        <div class="col-12 article-tags">
+        <div class="col-1"><i class="menu-icon fa fa-eye"></i> @article.views</div>
+
+        <div class="col-11 article-tags">
             @article.tags.split(",").reverse.map { tag =>
                 <a href="@routes.HomeController.index(f = tag)">#@tag</a>
             }

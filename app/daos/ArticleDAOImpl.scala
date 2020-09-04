@@ -37,6 +37,16 @@ class ArticleDAOImpl @Inject() (val database: DatabaseConnector) (implicit conte
     Future.successful(run(articles.filter(_.url == lift(url))).headOption)
 
   /**
+    * Aktualizuje ilość wyświetleń
+    *
+    * @param id identyfikator do aktualizacji wyświetleń
+    */
+  override def bumpViews(id: UUID): Future[Unit] = transaction {
+    run(articles.filter(_.id == lift(id)).update(a => a.views -> (a.views + 1)))
+    Future.successful()
+  }
+
+  /**
     * Zapisuje artykuł w bazie
     *
     * @param data artykuł do zapisania

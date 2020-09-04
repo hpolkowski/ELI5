@@ -29,7 +29,7 @@ case class CreateArticleForm (
     */
   def toArticle(filepath: String)(implicit loggedIn: User): Article =
     Article(UUID.randomUUID(), loggedIn.id, "", filepath, title, content, ArticleState.TO_REVIEW,
-      LocalDateTime.now, LocalDateTime.now, recap, "")
+      LocalDateTime.now, LocalDateTime.now, recap, "", 0)
 }
 
 /**

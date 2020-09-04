@@ -37,7 +37,7 @@
 	@notifications()
 	@formGlobalErrors(form)
 	<div class="row">
-		<div class="offset-xl-3 col-xl-6 offset-lg-2 col-lg-8 offset-sm-1 col-sm-10">
+		<div class="col-lg-auto col-md-12 mx-auto">
 			@card('title -> "article.edit.header") {
 				@helper.form(controllers.routes.ArticleController.update(id), 'enctype -> "multipart/form-data") {
 					<div class="col-sm-12">

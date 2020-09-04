@@ -37,7 +37,7 @@ case class EditArticleForm (
     * @return obiekt artykułu
     */
   def toArticle(id: UUID, filepath: String)(implicit loggedIn: User): Article =
-    Article(id, loggedIn.id, url, filepath, title, content, state, LocalDateTime.now, LocalDateTime.now, recap, tags)
+    Article(id, loggedIn.id, url, filepath, title, content, state, LocalDateTime.now, LocalDateTime.now, recap, tags, 0)
 }
 
 /**

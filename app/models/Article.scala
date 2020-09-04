@@ -21,6 +21,7 @@ import utils.ArticleState
   * @param editDate   data ostatniej edycji
   * @param recap      podsumowanie
   * @param tags       tagi
+  * @param views      ilość wyświetleń
   */
 case class Article(
   id: UUID,
@@ -33,7 +34,8 @@ case class Article(
   createDate: LocalDateTime,
   editDate: LocalDateTime,
   recap: String,
-  tags: String
+  tags: String,
+  views: Int
 ) {
 
   /**

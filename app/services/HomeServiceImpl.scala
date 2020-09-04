@@ -47,5 +47,15 @@ class HomeServiceImpl @Inject()(
     *
     * @param url url artykułu
     */
-  override def retrieveArticle(url: String): Future[Option[Article]] = articleDAO.find(url)
+  override def retrieveArticle(url: String): Future[Option[Article]] = {
+    articleDAO.find(url).map {
+
+      case Some(article) =>
+        articleDAO.bumpViews(article.id)
+        Some(article)
+
+      case None =>
+        None
+    }
+  }
 }

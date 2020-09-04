@@ -1,9 +1,11 @@
-# ELI5 Article Tags
+# ELI5 Article Tags, recap and views
 
 # --- !Ups
 ALTER TABLE Articles ADD COLUMN tags CHARACTER VARYING NOT NULL DEFAULT '';
 ALTER TABLE Articles ADD COLUMN recap CHARACTER VARYING NOT NULL DEFAULT '';
+ALTER TABLE Articles ADD COLUMN views NUMERIC NOT NULL DEFAULT 0;
 
 # --- !Downs
+ALTER TABLE Articles DROP COLUMN views;
 ALTER TABLE Articles DROP COLUMN recap;
 ALTER TABLE Articles DROP COLUMN tags;

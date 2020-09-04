@@ -42,6 +42,13 @@ trait ArticleDAO {
   def update(article: Article): Future[Unit]
 
   /**
+    * Aktualizuje ilość wyświetleń
+    *
+    * @param id identyfikator do aktualizacji wyświetleń
+    */
+  def bumpViews(id: UUID): Future[Unit]
+
+  /**
     * Zlicza ilość artykułów w bazie
     *
     * @return liczba zapisanych artykułów
