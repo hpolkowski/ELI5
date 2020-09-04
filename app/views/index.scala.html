@@ -1,10 +1,18 @@
-@(page: Page[Article], filter: String)(implicit request: RequestHeader, messages: Messages, assets: AssetsFinder)
+@(page: Page[Article], orderBy: Int, filter: String)(implicit request: RequestHeader, messages: Messages, assets: AssetsFinder)
 
-@main(s"landing.articles.list.header${if(filter.isEmpty)".latest" else ""}", 'filter -> filter) {
+@title = @{
+    if(filter.isEmpty)
+        orderBy match {
+            case 0 => ".latest"
+            case _ => ".popular"
+        }
+    else ""
+}
 
+@main(s"landing.articles.list.header$title", 'filter -> filter) {
     <div class="row">
         @page.items.map { article =>
-            <div class="col-lg-4">
+            <div class="col-lg-4 col-md-6">
                 <div class="article-item mx-auto mb-5 mb-lg-3">
                     <a href="@routes.HomeController.details(article.url)#content" class="text-dark nav-link">
                         <h5>@article.title</h5>
@@ -17,9 +25,22 @@
     </div>
 
     <div class="row">
-        <div class="col-md-2 mx-auto mt-3">
+        <div class="col-11 mx-auto">
+            @orderBy match {
+                case 0 => {
+                    <a href="/popular#content" class="float-right ordering-link">@messages("landing.articles.popular")</a>
+                }
+                case _ => {
+                    <a href="@routes.HomeController.index(1, 0, f = filter)#content" class="float-right ordering-link">@messages("landing.articles.lastest")</a>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 mx-auto mt-3">
             @page.next.map { next =>
-                <a href="@routes.HomeController.index(next, f = filter)#content">@messages("landing.articles.loadMore")</a>
+                <a href="@routes.HomeController.index(next, orderBy, f = filter)#content">@messages("landing.articles.loadMore")</a>
             }.getOrElse {
                 <p>@messages("landing.articles.noMore")</p>
             }

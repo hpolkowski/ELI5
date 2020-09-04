@@ -21,17 +21,18 @@ class HomeController @Inject()(
   context: ExecutionContext
 ) extends AbstractController(components) with I18nSupport {
 
-  val Home = Redirect(routes.HomeController.index())
+  val Home = Redirect(routes.HomeController.index(1, 0))
 
   /**
     * Lista artykułów
     *
     * @param page     aktualna strona
+    * @param orderBy  kolejność sortowania
     * @param filter   filtry
     */
-  def index(page: Int, filter: String) = Action.async { implicit request =>
-    homeService.listArticle(page, filter).map { articles =>
-      Ok(views.html.index(articles, filter))
+  def index(page: Int, orderBy: Int, filter: String) = Action.async { implicit request =>
+    homeService.listArticle(page, orderBy, filter).map { articles =>
+      Ok(views.html.index(articles, orderBy, filter))
     }
   }
 
@@ -44,8 +45,8 @@ class HomeController @Inject()(
       formWithErrors => Future.successful(Home),
 
       filter =>
-        homeService.listArticle(1, filter).map { articles =>
-          Ok(views.html.index(articles, filter))
+        homeService.listArticle(1, 0, filter).map { articles =>
+          Ok(views.html.index(articles, 0, filter))
         }
     )
   }

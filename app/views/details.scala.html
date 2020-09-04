@@ -16,7 +16,7 @@
 
         <div class="col-11 article-tags">
             @article.tags.split(",").reverse.map { tag =>
-                <a href="@routes.HomeController.index(f = tag)">#@tag</a>
+                <a href="@routes.HomeController.index(1, 0, tag)">#@tag</a>
             }
         </div>
     </div>

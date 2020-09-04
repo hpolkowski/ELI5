@@ -36,10 +36,11 @@ class HomeServiceImpl @Inject()(
     * Zwraca listę aktywnych artykułów
     *
     * @param page   numer strony
+    * @param orderBy  kolejność sortowania
     * @param filter tekst filtrowania
     */
-  override def listArticle(page: Int, filter: String): Future[Page[Article]] = {
-    articleDAO.list(page, 12, 0, filter, onlyActive = true)
+  override def listArticle(page: Int, orderBy: Int, filter: String): Future[Page[Article]] = {
+    articleDAO.list(page, 12, orderBy, filter, onlyActive = true)
   }
 
   /**

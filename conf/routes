@@ -4,8 +4,9 @@
 # ~~~~
 
 # Home
-GET     /                                                   controllers.HomeController.index(p:Int ?= 1, f ?= "")
+GET     /                                                   controllers.HomeController.index(p:Int ?= 1, s:Int ?= 0, f ?= "")
 POST    /                                                   controllers.HomeController.search
+GET     /popular                                            controllers.HomeController.index(p:Int ?= 1, s:Int ?= 10, f ?= "")
 GET     /article/:url                                       controllers.HomeController.details(url: String)
 POST    /newsletter/signup                                  controllers.HomeController.newsletterSignUp
 

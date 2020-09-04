@@ -125,6 +125,7 @@ class ArticleDAOImpl @Inject() (val database: DatabaseConnector) (implicit conte
       case -4 => filteredQuery.sortBy(_.editDate)(Ord.desc)
 
       case 0 => filteredQuery.sortBy(_.editDate)(Ord.desc)
+      case 10 => filteredQuery.sortBy(_.views)(Ord.desc)
 
       case _ => filteredQuery.sortBy(_.id)(Ord.desc)
     }

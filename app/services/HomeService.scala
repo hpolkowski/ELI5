@@ -19,10 +19,11 @@ trait HomeService {
   /**
     * Zwraca listę aktywnych artykułów
     *
-    * @param page   numer strony
-    * @param filter tekst filtrowania
+    * @param page     numer strony
+    * @param orderBy  kolejność sortowania
+    * @param filter   tekst filtrowania
     */
-  def listArticle(page: Int, filter: String): Future[Page[Article]]
+  def listArticle(page: Int, orderBy: Int, filter: String): Future[Page[Article]]
 
   /**
     * Wyszukuje artykułu po url
