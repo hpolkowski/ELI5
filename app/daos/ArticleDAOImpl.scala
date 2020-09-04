@@ -52,10 +52,12 @@ class ArticleDAOImpl @Inject() (val database: DatabaseConnector) (implicit conte
   override def update(data: Article): Future[Unit] = transaction {
     run(articles.filter(_.id == lift(data.id)).update(
       _.title -> lift(data.title),
+      _.recap -> lift(data.recap),
       _.url -> lift(data.url),
       _.state -> lift(data.state),
       _.content -> lift(data.content),
-      _.editDate -> lift(data.editDate)
+      _.editDate -> lift(data.editDate),
+      _.tags -> lift(data.tags)
     ))
 
     if(data.leadPhoto.nonEmpty)
@@ -79,7 +81,7 @@ class ArticleDAOImpl @Inject() (val database: DatabaseConnector) (implicit conte
     * @param orderBy    sortowanie
     * @param filter     filtrowanie
     * @param onlyActive jeżeli true to wyszukuje tylko aktywnych artykułów
-    * @param owner    twórca artykułu
+    * @param owner      twórca artykułu
     * @return lista artykułów
     */
   override def list(page: Int, pageSize: Int, orderBy: Int, filter: String, onlyActive: Boolean, owner: Option[User]): Future[Page[Article]] = {
@@ -96,7 +98,9 @@ class ArticleDAOImpl @Inject() (val database: DatabaseConnector) (implicit conte
     }
 
     val filteredQuery = if (filter.nonEmpty)
-      quote(ownerQuery.filter { data => data.title likeLowerCase lift(s"%$filter%") })
+      quote(ownerQuery.filter { data =>
+        (data.title likeLowerCase lift(s"%$filter%")) || (data.tags likeLowerCase lift(s"%$filter%"))
+      })
     else ownerQuery
 
     val sortedQuery: Quoted[Query[Article]] = orderBy match {

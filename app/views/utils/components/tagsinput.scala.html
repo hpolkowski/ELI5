@@ -1,0 +1,11 @@
+@(field: Field, args: (Symbol, Any)*)(implicit messages: Messages)
+
+<div class="form-group @if(field.hasErrors){has-danger}" id="@(field.id)_field">
+    @args.toMap.get('_label).map { label => <label for="@field.name">@messages(label.toString)</label> }
+
+    <input type="text" id="@field.id" name="@field.name" value="@field.value" data-role="tagsinput" @if(field.hasErrors){aria-invalid="true"} class="is-invalid form-control">
+
+    @field.errors.zipWithIndex.map { case (error, i) =>
+        <div id="@(field.id)_error_@i" class="invalid-feedback">@messages(error.message)</div>
+    }
+</div>

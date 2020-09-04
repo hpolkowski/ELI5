@@ -3,7 +3,7 @@ package models
 import java.time.LocalDateTime
 import java.util.UUID
 
-import forms.CreateArticleForm
+import forms.{CreateArticleForm, EditArticleForm}
 import play.api.data.Form
 import utils.ArticleState
 
@@ -19,6 +19,8 @@ import utils.ArticleState
   * @param state      status artykułu
   * @param createDate data dodania
   * @param editDate   data ostatniej edycji
+  * @param recap      podsumowanie
+  * @param tags       tagi
   */
 case class Article(
   id: UUID,
@@ -29,7 +31,9 @@ case class Article(
   content: String,
   state: ArticleState.ArticleState,
   createDate: LocalDateTime,
-  editDate: LocalDateTime
+  editDate: LocalDateTime,
+  recap: String,
+  tags: String
 ) {
 
   /**
@@ -37,7 +41,14 @@ case class Article(
     *
     * @return formularz tworzenia artykułu
     */
-  def toCreateArticleForm: Form[CreateArticleForm] = CreateArticleForm.form.fill(CreateArticleForm(title, Some(url), Some(state), content))
+  def toCreateArticleForm: Form[CreateArticleForm] = CreateArticleForm.form.fill(CreateArticleForm(title, recap, content))
+
+  /**
+    * Uzupełnia danymi formularz tworzenia artykułu
+    *
+    * @return formularz tworzenia artykułu
+    */
+  def toEditArticleForm: Form[EditArticleForm] = EditArticleForm.form.fill(EditArticleForm(title, recap, url, state, content, tags))
 
   /**
     * Zwraca true jeżeli artykuł jest do sprawdzenia

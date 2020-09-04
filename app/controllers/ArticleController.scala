@@ -5,7 +5,7 @@ import java.util.UUID
 
 import bootstrap.AppConfig
 import com.mohiva.play.silhouette.api.Silhouette
-import forms.CreateArticleForm
+import forms.{CreateArticleForm, EditArticleForm}
 import javax.inject._
 import models.User
 import play.api.data.Form
@@ -103,7 +103,7 @@ class ArticleController @Inject()(
       case Some(article) =>
         val readonly = loggedIn.isCreator && !article.isToReview
 
-        Ok(views.html.admin.article.edit(article.id, article.toCreateArticleForm, readonly))
+        Ok(views.html.admin.article.edit(article.id, article.toEditArticleForm, readonly))
 
       case None =>
         Home.flashing("failure" -> "article.edit.notFound")
@@ -117,9 +117,9 @@ class ArticleController @Inject()(
   def update(id: UUID) = silhouette.SecuredAction(WithRoles(Seq(RoleType.ADMIN, RoleType.MODERATOR, RoleType.CREATOR))).async { implicit request =>
     implicit val loggedIn: User = request.identity
 
-    def badRequest(formWithErrors: Form[CreateArticleForm]) = Future.successful(BadRequest(views.html.admin.article.edit(id, formWithErrors)))
+    def badRequest(formWithErrors: Form[EditArticleForm]) = Future.successful(BadRequest(views.html.admin.article.edit(id, formWithErrors)))
 
-    CreateArticleForm.form.bindFromRequest.fold(
+    EditArticleForm.form.bindFromRequest.fold(
 
       formWithErrors => badRequest(formWithErrors),
 
@@ -182,9 +182,9 @@ class ArticleController @Inject()(
   def previewById(id: UUID) = silhouette.SecuredAction(WithRoles(Seq(RoleType.ADMIN, RoleType.MODERATOR, RoleType.CREATOR))).async { implicit request =>
     implicit val loggedIn: User = request.identity
 
-    def badRequest(formWithErrors: Form[CreateArticleForm]) = BadRequest(views.html.admin.article.edit(id, formWithErrors))
+    def badRequest(formWithErrors: Form[EditArticleForm]) = BadRequest(views.html.admin.article.edit(id, formWithErrors))
 
-    CreateArticleForm.form.bindFromRequest.fold(
+    EditArticleForm.form.bindFromRequest.fold(
 
       formWithErrors => Future.successful(badRequest(formWithErrors)),
 
@@ -209,7 +209,7 @@ class ArticleController @Inject()(
             Ok(views.html.details(article))
 
           case None =>
-            badRequest(CreateArticleForm.form.fill(data))
+            badRequest(EditArticleForm.form.fill(data))
         }
 
       }

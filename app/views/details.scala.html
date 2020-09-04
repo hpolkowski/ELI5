@@ -11,5 +11,11 @@
         <div class="col-12 article-content tinymce-content-body">
             @Html(article.content)
         </div>
+
+        <div class="col-12 article-tags">
+            @article.tags.split(",").reverse.map { tag =>
+                <a href="@routes.HomeController.index(f = tag)">#@tag</a>
+            }
+        </div>
     </div>
 }

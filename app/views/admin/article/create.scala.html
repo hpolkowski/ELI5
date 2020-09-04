@@ -32,6 +32,7 @@
 					<div class="col-sm-12">
 						@helper.CSRF.formField
 						@b4.text(form("title"), '_label -> "article.create.title.label")
+           	 			@b4.text(form("recap"), '_label -> "article.create.recap.label")
 						@b4.file(form("leadPhoto"), '_label -> "article.create.leadPhoto.label")
 						@b4.textarea(form("content"), '_label -> "article.create.content.label")
 					</div>
