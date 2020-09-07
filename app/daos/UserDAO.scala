@@ -4,6 +4,7 @@ import java.util.UUID
 
 import com.mohiva.play.silhouette.api.LoginInfo
 import models.{Page, User}
+import play.api.i18n.Messages
 import utils.RoleType.RoleType
 
 import scala.concurrent.Future
@@ -52,6 +53,13 @@ trait UserDAO {
     * @return The user with new data.
     */
   def update(user: User): Future[User]
+
+  /**
+    * Aktualizuje preferowany język użytkownika
+    *
+    * @param user użytkownik do aktualizacji
+    */
+  def updateLang(user: User)(implicit messages: Messages): Future[Unit]
 
   /**
     * Updates user password

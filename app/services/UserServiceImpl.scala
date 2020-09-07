@@ -9,6 +9,7 @@ import com.mohiva.play.silhouette.impl.providers.CredentialsProvider
 import daos.UserDAO
 import javax.inject.Inject
 import models.User
+import play.api.i18n.Messages
 import utils.FutureUtils
 import utils.RoleType.RoleType
 
@@ -63,6 +64,13 @@ class UserServiceImpl @Inject()(userDAO: UserDAO)(implicit context: ExecutionCon
     * @return użytkownik zaktualizowany
     */
   override def update(user: User) = userDAO.update(user)
+
+  /**
+    * Aktualizuje preferowany język użytkownika
+    *
+    * @param user użytkownik do aktualizacji
+    */
+  override def updateLang(user: User)(implicit messages: Messages): Future[Unit] = userDAO.updateLang(user)
 
   /**
     * Aktualizuje hasło

@@ -5,6 +5,7 @@ import javax.inject._
 import models.User
 import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc._
+import services.UserService
 import utils.RoleType
 import utils.auth.{CookieEnvironment, WithRole, WithRoles}
 
@@ -14,7 +15,8 @@ import utils.auth.{CookieEnvironment, WithRole, WithRoles}
 @Singleton
 class AdminController @Inject()(
   silhouette: Silhouette[CookieEnvironment],
-  components: ControllerComponents
+  components: ControllerComponents,
+  userService: UserService
 )(
   implicit
   assets: AssetsFinder
@@ -35,7 +37,10 @@ class AdminController @Inject()(
     * @param lang język docelowy
     */
   def changeLanguage(lang: String) = silhouette.SecuredAction(WithRoles(Seq(RoleType.ADMIN, RoleType.MODERATOR, RoleType.CREATOR))) { implicit request =>
-    val url = request.headers.toMap("referer").headOption.getOrElse(routes.AdminController.index.absoluteURL)
+    val loggedIn = request.identity
+    val url = request.headers.toMap("referer").headOption.getOrElse(routes.AdminController.index().absoluteURL)
+
+    userService.updateLang(loggedIn)
 
     Redirect(url).withLang(Lang(lang))
   }

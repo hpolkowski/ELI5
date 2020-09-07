@@ -7,6 +7,8 @@ import com.mohiva.play.silhouette.api.LoginInfo
 import database.{DatabaseConnector, QueryExtension}
 import javax.inject.Inject
 import models.{Page, User}
+import play.api.i18n.Messages
+import utils.Language
 import utils.RoleType.RoleType
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -97,6 +99,21 @@ class UserDAOImpl @Inject() (val database: DatabaseConnector) (implicit context:
       _.providerKey -> lift(user.providerKey)
     ))
     Future.successful(user)
+  }
+
+  /**
+    * Aktualizuje preferowany język użytkownika
+    *
+    * @param user użytkownik do aktualizacji
+    */
+  override def updateLang(user: User)(implicit messages: Messages): Future[Unit] = {
+    val lang = Language.fromMessages
+
+    run(users.filter(_.id == lift(user.id)).update(
+      _.lang -> lift(lang)
+    ))
+
+    Future.successful()
   }
 
   /**

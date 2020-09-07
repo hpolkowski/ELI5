@@ -6,6 +6,7 @@ import com.mohiva.play.silhouette.api.repositories.AuthInfoRepository
 import com.mohiva.play.silhouette.api.services.IdentityService
 import com.mohiva.play.silhouette.api.util.PasswordHasherRegistry
 import models.{Page, User}
+import play.api.i18n.Messages
 import utils.RoleType.RoleType
 
 import scala.concurrent.Future
@@ -46,6 +47,13 @@ trait UserService extends IdentityService[User] {
     * @return The updated user.
     */
   def update(user: User): Future[User]
+
+  /**
+    * Aktualizuje preferowany język użytkownika
+    *
+    * @param user użytkownik do aktualizacji
+    */
+  def updateLang(user: User)(implicit messages: Messages): Future[Unit]
 
   /**
     * Updates user password
