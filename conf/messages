@@ -30,6 +30,10 @@ TO_REVIEW=TO REVIEW
 ACTIVE=ACTIVE
 REJECTED=REJECTED
 
+# Języki
+language.pl=POLISH
+language.us=ENGLISH
+
 # Stronnicowanie
 pagination.previous=Previous
 pagination.next=Next
@@ -45,7 +49,7 @@ auth.password=Password
 auth.sign.out=Log Out
 auth.sign.in=Log In
 auth.credentials.invalid=Login datais invalid.
-auth.sign.in.title=Log In below
+auth.sign.in.title=ELI5 - Log In
 auth.forgotPassword=Forgot password?
 auth.changePassword=Change it here!
 auth.requestResetPassword.email.label=Email
@@ -62,7 +66,7 @@ admin.navigation.articles=Articles
 user.passwordReset.title=Reset password
 user.passwordReset.password.label=New password
 user.passwordReset.re-enter.label=Reenter new password
-user.passwordReset.button=Send password
+user.passwordReset.button=Send instructions
 user.list.header=Users
 user.list.title=User list
 user.list.email=Email
@@ -90,6 +94,7 @@ article.create.title=Create new article
 article.create.header=New article
 article.create.title.label=Title
 article.create.recap.label=Summary
+article.create.lang.label=Language
 article.create.leadPhoto.label=Lead photo
 article.create.url.label=Url
 article.create.state.label=State
@@ -98,13 +103,13 @@ article.create.tags.label=Tags
 article.edit.title=Edit article data
 article.edit.header=Edit article
 article.edit.url.empty=Url field can''t be empty!
-article.save.success=Article successfully submited.
+article.save.success=Article successfully submitted.
 article.edit.notFound=Article not found.
-article.details.notFound=Article not found.
 article.update.success=Article successfully updated.
 
 # Landing
 landing.header.message=ELI5 - Explain Like I''m Five!
+landing.header.messages.translation=
 landing.header.invitation=What you are looking for?
 landing.header.search.placeholder.0=How does inflation work?
 landing.header.search.placeholder.1=How does induction charging works?
@@ -121,7 +126,7 @@ landing.articles.list.header=Here are matching results!
 landing.articles.list.header.latest=Check out our latest articles!
 landing.articles.list.header.popular=Check out our popular articles!
 landing.articles.popular=Show what's popular
-landing.articles.lastest=Show lastests
+landing.articles.lastest=Show lastest
 landing.articles.loadMore=Load more...
 landing.articles.noMore=No more results
 landing.articles.details.notFound=Sorry, couldn't find your article.

@@ -9,6 +9,7 @@ POST    /                                                   controllers.HomeCont
 GET     /popular                                            controllers.HomeController.index(p:Int ?= 1, s:Int ?= 10, f ?= "")
 GET     /article/:url                                       controllers.HomeController.details(url: String)
 POST    /newsletter/signup                                  controllers.HomeController.newsletterSignUp
+GET     /lang                                               controllers.HomeController.changeLanguage(lang: String)
 
 # Files
 GET     /photos/*path                                       controllers.FileController.photo(path: String)
@@ -22,6 +23,7 @@ POST	/resetPassword										controllers.AuthController.sendResetPassword
 
 # Admin
 GET     /admin                                              controllers.AdminController.index
+GET     /admin/lang                                         controllers.AdminController.changeLanguage(lang: String)
 
 # User
 GET		/admin/user/list								    controllers.UserController.list(p:Int ?= 1, ps:Int?=10, s:Int ?= 0, f ?= "")

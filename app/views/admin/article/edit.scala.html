@@ -10,6 +10,7 @@
 @import views.html.utils.components.card
 @import java.util.UUID
 @import views.html.utils.components.tagsinput
+@import _root_.utils.FormHelper
 @(id: UUID, form: Form[EditArticleForm], readonly: Boolean = false)(implicit loggedIn: User, request: RequestHeader, messages: Messages, assets: AssetsFinder)
 
 @implicitFieldConstructor = @{ b4.vertical.fieldConstructor() }
@@ -44,6 +45,7 @@
 						@helper.CSRF.formField
 						@b4.text(form("title"), '_label -> "article.create.title.label")
 						@b4.text(form("recap"), '_label -> "article.create.recap.label")
+						@b4.select(form("lang"), FormHelper.allLanguages, '_label -> "article.create.lang.label")
 						@b4.file(form("leadPhoto"), '_label -> "article.create.leadPhoto.label")
 						@if(loggedIn.isModerator || loggedIn.isAdmin) {
 							@b4.text(form("url"), '_label -> "article.create.url.label")

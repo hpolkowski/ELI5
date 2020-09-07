@@ -3,6 +3,7 @@ package daos
 import java.util.UUID
 
 import models.{Article, Page, User}
+import utils.Language
 
 import scala.concurrent.Future
 
@@ -64,7 +65,8 @@ trait ArticleDAO {
     * @param filter     filtrowanie
     * @param onlyActive jeżeli true to wyszukuje tylko aktywnych artykułów
     * @param owner      twórca artykułu
+    * @param lang       język artykułu
     * @return lista artykułów
     */
-  def list(page: Int = 1, pageSize: Int = 10, orderBy: Int = 1, filter: String = "%", onlyActive: Boolean = false, owner: Option[User] = None): Future[Page[Article]]
+  def list(page: Int = 1, pageSize: Int = 10, orderBy: Int = 1, filter: String = "%", onlyActive: Boolean = false, owner: Option[User] = None, lang: Option[Language.Language] = None): Future[Page[Article]]
 }

@@ -15,3 +15,34 @@
 div.dataTables_wrapper div.dataTables_filter input {
     max-width: 10em;
 }
+
+#language-select .dropdown-toggle,
+#language-select .dropdown-menu .dropdown-item a {
+    box-shadow: 0 0 4px #272c33;
+}
+
+#language-select .dropdown-menu {
+    background: transparent;
+    left: 25px !important;
+    top: -2px !important;
+}
+
+#language-select .dropdown-menu .dropdown-item:hover {
+    background: transparent;
+}
+
+.flag-icon {
+    width: 1.5em;
+    line-height: 1.5em;
+}
+
+@media (max-width: 575.99px) {
+    #language-select {
+        top: -5px;
+    }
+    #language-select .dropdown-menu {
+        background: transparent;
+        left: -5px !important;
+        top: 28px !important;
+    }
+}

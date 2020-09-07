@@ -4,7 +4,7 @@ import java.util.UUID
 import database.{DatabaseConnector, QueryExtension}
 import javax.inject.Inject
 import models.{Article, Page, User}
-import utils.ArticleState
+import utils.{ArticleState, Language}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -92,9 +92,10 @@ class ArticleDAOImpl @Inject() (val database: DatabaseConnector) (implicit conte
     * @param filter     filtrowanie
     * @param onlyActive jeżeli true to wyszukuje tylko aktywnych artykułów
     * @param owner      twórca artykułu
+    * @param lang       język artykułu
     * @return lista artykułów
     */
-  override def list(page: Int, pageSize: Int, orderBy: Int, filter: String, onlyActive: Boolean, owner: Option[User]): Future[Page[Article]] = {
+  override def list(page: Int, pageSize: Int, orderBy: Int, filter: String, onlyActive: Boolean, owner: Option[User], lang: Option[Language.Language]): Future[Page[Article]] = {
     val query: Quoted[Query[Article]] = articles
 
     val onlyActiveQuery = if(onlyActive)
@@ -107,11 +108,17 @@ class ArticleDAOImpl @Inject() (val database: DatabaseConnector) (implicit conte
       onlyActiveQuery
     }
 
+    val langQuery = lang.map { language =>
+      quote(ownerQuery.filter(_.lang == lift(language)))
+    }.getOrElse {
+      ownerQuery
+    }
+
     val filteredQuery = if (filter.nonEmpty)
-      quote(ownerQuery.filter { data =>
+      quote(langQuery.filter { data =>
         (data.title likeLowerCase lift(s"%$filter%")) || (data.tags likeLowerCase lift(s"%$filter%"))
       })
-    else ownerQuery
+    else langQuery
 
     val sortedQuery: Quoted[Query[Article]] = orderBy match {
       case 1 => filteredQuery.sortBy(_.title)

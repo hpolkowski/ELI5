@@ -28,4 +28,11 @@ object FormHelper {
     */
   def allArticleStates(implicit provider: MessagesProvider) = ArticleState.values.map { enum => enum.toString -> Messages(enum.toString) }.toList
 
+  /**
+    * Zwraca wszystkie opcje języków
+    *
+    * @return lista opcji (id,nazwa)
+    */
+  def allLanguages(implicit provider: MessagesProvider) = Language.values.map { enum => enum.toString -> Messages(s"language.${enum.toString}") }.toList
+
 }

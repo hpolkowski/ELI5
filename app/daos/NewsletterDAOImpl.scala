@@ -2,6 +2,9 @@ package daos
 
 import database.{DatabaseConnector, QueryExtension}
 import javax.inject.Inject
+import models.Newsletter
+import play.api.i18n.Messages
+import utils.Language
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -13,15 +16,17 @@ class NewsletterDAOImpl @Inject() (val database: DatabaseConnector) (implicit co
 
   import database.ctx._
 
-  private val newsletter = quote(querySchema[String]("newsletter", _ -> "email"))
+  private val newsletters = quote(querySchema[Newsletter]("newsletter"))
 
   /**
     * Zapisuje do newslettera w bazie
     *
     * @param email adres email
     */
-  override def save(email: String): Future[Unit] = {
-    run(newsletter.insert(lift(email)))
+  override def save(email: String)(implicit messages: Messages): Future[Unit] = {
+    val newsletter = Newsletter(email, Language.fromMessages)
+
+    run(newsletters.insert(lift(newsletter)))
 
     Future.successful()
   }
@@ -32,7 +37,7 @@ class NewsletterDAOImpl @Inject() (val database: DatabaseConnector) (implicit co
     * @param email adres email
     */
   override def delete(email: String): Future[Unit] =  {
-    run(newsletter.filter(_ == lift(email)).delete)
+    run(newsletters.filter(_.email == lift(email)).delete)
 
     Future.successful()
   }
@@ -42,7 +47,7 @@ class NewsletterDAOImpl @Inject() (val database: DatabaseConnector) (implicit co
     *
     * @return ilość wpisów
     */
-  override def count: Future[Long] = Future.successful(run(newsletter.size))
+  override def count: Future[Long] = Future.successful(run(newsletters.size))
 
   /**
     * Zwraca listę adresów
@@ -50,7 +55,7 @@ class NewsletterDAOImpl @Inject() (val database: DatabaseConnector) (implicit co
     * @return lista adresów email
     */
   override def list: Future[List[String]] = Future.successful(
-    run(newsletter)
+    run(newsletters).map(_.email)
   )
 
   /**
@@ -59,6 +64,6 @@ class NewsletterDAOImpl @Inject() (val database: DatabaseConnector) (implicit co
     * @param email adres email
     */
   override def retrieve(email: String): Future[Option[String]] = Future.successful(
-    run(newsletter.filter(_ == lift(email)).take(1)).headOption
+    run(newsletters.filter(_.email == lift(email)).take(1)).headOption.map(_.email)
   )
 }

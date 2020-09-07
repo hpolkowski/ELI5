@@ -9,7 +9,7 @@ import javax.inject.{Inject, Singleton}
 import models.User
 import play.api.Logger
 import services.UserService
-import utils.RoleType
+import utils.{Language, RoleType}
 
 import scala.concurrent.ExecutionContext
 
@@ -49,6 +49,6 @@ private[bootstrap] class InitialData @Inject() (
 
 private[bootstrap] object InitialData {
   def users = List(
-    User(UUID.randomUUID(), RoleType.ADMIN, CredentialsProvider.ID, "admin@admin.pl", "admin", "Administrator Systemu", None)
+    User(UUID.randomUUID(), RoleType.ADMIN, CredentialsProvider.ID, "admin@admin.pl", "admin", "Administrator Systemu", Language.PL, None)
   )
 }

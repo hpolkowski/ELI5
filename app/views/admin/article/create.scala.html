@@ -6,6 +6,7 @@
 @import views.html.utils.errors.formGlobalErrors
 @import views.html.utils.notifications
 @import views.html.utils.components.card
+@import _root_.utils.FormHelper
 @(form: Form[CreateArticleForm])(implicit loggedIn: User, request: RequestHeader, messages: Messages, assets: AssetsFinder)
 
 @implicitFieldConstructor = @{ b4.vertical.fieldConstructor() }
@@ -17,7 +18,9 @@
 			selector: '#@form("content").id',
 			menubar: false,
 			height: 500,
-			plugins: 'image'
+			a11y_advanced_options: true,
+			plugins: 'image, lists',
+			toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | outdent indent | image'
 		});
 	</script>
 }
@@ -33,6 +36,7 @@
 						@helper.CSRF.formField
 						@b4.text(form("title"), '_label -> "article.create.title.label")
            	 			@b4.text(form("recap"), '_label -> "article.create.recap.label")
+						@b4.select(form("lang"), FormHelper.allLanguages, '_label -> "article.create.lang.label")
 						@b4.file(form("leadPhoto"), '_label -> "article.create.leadPhoto.label")
 						@b4.textarea(form("content"), '_label -> "article.create.content.label")
 					</div>

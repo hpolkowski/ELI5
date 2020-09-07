@@ -1,5 +1,7 @@
 package daos
 
+import play.api.i18n.Messages
+
 import scala.concurrent.Future
 
 /**
@@ -12,7 +14,7 @@ trait NewsletterDAO {
     *
     * @param email adres email
     */
-  def save(email: String): Future[Unit]
+  def save(email: String)(implicit messages: Messages): Future[Unit]
 
   /**
     * Wyszukuje zapisu w bazie po adresie email

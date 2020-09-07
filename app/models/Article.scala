@@ -5,7 +5,7 @@ import java.util.UUID
 
 import forms.{CreateArticleForm, EditArticleForm}
 import play.api.data.Form
-import utils.ArticleState
+import utils.{ArticleState, Language}
 
 /**
   * Artykuł
@@ -22,6 +22,7 @@ import utils.ArticleState
   * @param recap      podsumowanie
   * @param tags       tagi
   * @param views      ilość wyświetleń
+  * @param lang       język artykułu
   */
 case class Article(
   id: UUID,
@@ -35,7 +36,8 @@ case class Article(
   editDate: LocalDateTime,
   recap: String,
   tags: String,
-  views: Int
+  views: Int,
+  lang: Language.Language
 ) {
 
   /**
@@ -43,14 +45,14 @@ case class Article(
     *
     * @return formularz tworzenia artykułu
     */
-  def toCreateArticleForm: Form[CreateArticleForm] = CreateArticleForm.form.fill(CreateArticleForm(title, recap, content))
+  def toCreateArticleForm: Form[CreateArticleForm] = CreateArticleForm.form.fill(CreateArticleForm(title, recap, lang, content))
 
   /**
     * Uzupełnia danymi formularz tworzenia artykułu
     *
     * @return formularz tworzenia artykułu
     */
-  def toEditArticleForm: Form[EditArticleForm] = EditArticleForm.form.fill(EditArticleForm(title, recap, url, state, content, tags))
+  def toEditArticleForm: Form[EditArticleForm] = EditArticleForm.form.fill(EditArticleForm(title, recap, lang, url, state, content, tags))
 
   /**
     * Zwraca true jeżeli artykuł jest do sprawdzenia

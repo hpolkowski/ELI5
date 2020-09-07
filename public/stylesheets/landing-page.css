@@ -195,3 +195,12 @@ footer.footer {
   max-width: 100%;
   height: auto;
 }
+
+/* Pasek nawigacji */
+header.masthead {
+  padding-top: 1rem !important;
+}
+
+header .navbar-discreet {
+  padding-bottom: 10rem
+}

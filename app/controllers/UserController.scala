@@ -13,7 +13,7 @@ import models.User
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc._
 import services.{MailerService, _}
-import utils.RoleType
+import utils.{Language, RoleType}
 import utils.auth.{CookieEnvironment, WithRole}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -82,7 +82,7 @@ class UserController @Inject()(
       formWithErrors => Future.successful(BadRequest(views.html.admin.user.create(formWithErrors))),
 
       data => {
-        val userData = User(UUID.randomUUID(), data.role, CredentialsProvider.ID, data.email, "", data.fullName)
+        val userData = User(UUID.randomUUID(), data.role, CredentialsProvider.ID, data.email, "", data.fullName, Language.fromMessages)
 
         for {
           user <- userService.save(userData)
@@ -127,7 +127,7 @@ class UserController @Inject()(
       formWithErrors => Future.successful(BadRequest(views.html.admin.user.edit(id, formWithErrors))),
 
       data => {
-        val userData = User(id, data.role, CredentialsProvider.ID, data.email, "", data.fullName)
+        val userData = User(id, data.role, CredentialsProvider.ID, data.email, "", data.fullName, Language.fromMessages)
 
         userService.update(userData).map { user =>
           Home.flashing("success" -> Messages("user.edit.success", user.email))

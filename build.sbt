@@ -47,6 +47,7 @@ libraryDependencies ++= Seq(
   "org.webjars" % "bootstrap" % "4.1.3",
   "org.webjars" % "datatables" % "1.10.21",
   "org.webjars.bower" % "github-com-Nodws-bootstrap4-tagsinput" % "4.1.2",
+  "org.webjars" % "flag-icon-css" % "2.4.0",
 
   // JQuery
   "org.webjars" % "jquery" % "2.2.3",

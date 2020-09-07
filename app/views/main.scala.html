@@ -15,7 +15,9 @@
         <link rel="stylesheet" type="text/css" href="@assets.path("lib/bootstrap/css/bootstrap.min.css")">
         <link rel="stylesheet" type="text/css" href="@assets.path("lib/font-awesome/css/font-awesome.min.css")">
         <link rel="stylesheet" type="text/css" href="@assets.path("lib/simple-line-icons/css/simple-line-icons.css")">
+        <link rel="stylesheet" type="text/css" href="@assets.path("lib/flag-icon-css/css/flag-icon.min.css")">
         <link rel="stylesheet" type="text/css" href="@assets.path("stylesheets/landing-page.css")">
+        <link rel="stylesheet" type="text/css" href="@assets.path("stylesheets/language-select.css")">
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
         @args.toMap.get('stylesheets)
     </head>
@@ -25,12 +27,37 @@
             <div class="overlay"></div>
             <div class="container">
                 <div class="row">
+                    <div class="col-12 mx-auto navbar-discreet">
+                        <div class="language-select dropdown float-right" id="language-select">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"  id="language" aria-haspopup="true" aria-expanded="true">
+                                <i class="flag-icon flag-icon-@messages.lang.language flag-icon-squared"></i>
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="language">
+                                @if(messages.lang.language != "pl"){
+                                    <div class="dropdown-item">
+                                        <a href="@routes.HomeController.changeLanguage("pl")"><i class="flag-icon flag-icon-pl flag-icon-squared"></i></a>
+                                    </div>
+                                }
+
+                                @if(messages.lang.language != "us"){
+                                    <div class="dropdown-item">
+                                        <a href="@routes.HomeController.changeLanguage("us")"><i class="flag-icon flag-icon-us flag-icon-squared"></i></a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="col-xl-6 mx-auto">
                         @notifications()
                     </div>
 
                     <div class="col-xl-9 mx-auto">
-                        <h1 class="mb-5">@messages("landing.header.message")</h1>
+                        <h1>@messages("landing.header.message")</h1>
+                        <h5 class="mb-4">&nbsp;@messages("landing.header.messages.translation")&nbsp;</h5>
                         <h2 class="mb-5">@messages("landing.header.invitation")</h2>
                     </div>
 

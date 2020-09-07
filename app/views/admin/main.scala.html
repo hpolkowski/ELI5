@@ -17,6 +17,7 @@
 
 		<link rel="stylesheet" type="text/css" href="@assets.path("lib/bootstrap/css/bootstrap.min.css")">
         <link rel="stylesheet" type="text/css" href="@assets.path("lib/font-awesome/css/font-awesome.min.css")">
+        <link rel="stylesheet" type="text/css" href="@assets.path("lib/flag-icon-css/css/flag-icon.min.css")">
         <link rel="stylesheet" type="text/css" href="@assets.path("stylesheets/style.css")">
         <link rel="stylesheet" type="text/css" href="@assets.path("stylesheets/main.css")">
 
@@ -85,6 +86,28 @@
                     <div class="col-sm-7">
                         <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
                         <div class="header-left"></div>
+                    </div>
+
+                    <div class="col-sm-5">
+                        <div class="language-select dropdown float-right" id="language-select">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"  id="language" aria-haspopup="true" aria-expanded="true">
+                                <i class="flag-icon flag-icon-@messages.lang.language"></i>
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="language">
+                                @if(messages.lang.language != "pl"){
+                                    <div class="dropdown-item">
+                                        <a href="@routes.AdminController.changeLanguage("pl")"><i class="flag-icon flag-icon-pl"></i></a>
+                                    </div>
+                                }
+
+                                @if(messages.lang.language != "us"){
+                                    <div class="dropdown-item">
+                                        <a href="@routes.AdminController.changeLanguage("us")"><i class="flag-icon flag-icon-us"></i></a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
             </header>

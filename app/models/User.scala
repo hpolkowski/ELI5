@@ -3,9 +3,21 @@ package models
 import java.util.UUID
 
 import io.getquill.Embedded
-import utils.RoleType
+import utils.{Language, RoleType}
 import utils.auth.IdentitySilhouette
 
+/**
+  * Uzytkownik systemu
+  *
+  * @param id                 unikalny identyfikator
+  * @param role               rola w systemie
+  * @param providerId         identyfikator dostawcy autoryzacji
+  * @param providerKey        klucz dostawcy autoryzacji
+  * @param password           hash hasła
+  * @param fullName           imię i nazwisko
+  * @param lang               preferowany język
+  * @param resetPasswordToken token zmiany hasła
+  */
 case class User(
   id: UUID,
   role: RoleType.RoleType,
@@ -13,6 +25,7 @@ case class User(
   providerKey: String,
   password: String,
   fullName: String,
+  lang: Language.Language,
   resetPasswordToken: Option[String] = None
 ) extends IdentitySilhouette with Embedded {
 

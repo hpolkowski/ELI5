@@ -2,7 +2,7 @@ package controllers
 
 import javax.inject._
 import play.api.data.{Form, Forms}
-import play.api.i18n.I18nSupport
+import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc._
 import services.HomeService
 
@@ -80,6 +80,17 @@ class HomeController @Inject()(
           Home.flashing("success" -> "landing.newsletter.signup.success")
         }
     )
+  }
+
+  /**
+    * Zmiana języka
+    *
+    * @param lang język docelowy
+    */
+  def changeLanguage(lang: String) = Action { implicit request =>
+    val url = request.headers.toMap("referer").headOption.getOrElse(routes.HomeController.index(1, 0).absoluteURL)
+
+    Redirect(url).withLang(Lang(lang))
   }
 
 }
