@@ -54,8 +54,8 @@ class NewsletterDAOImpl @Inject() (val database: DatabaseConnector) (implicit co
     *
     * @return lista adresów email
     */
-  override def list: Future[List[String]] = Future.successful(
-    run(newsletters).map(_.email)
+  override def list: Future[List[Newsletter]] = Future.successful(
+    run(newsletters)
   )
 
   /**

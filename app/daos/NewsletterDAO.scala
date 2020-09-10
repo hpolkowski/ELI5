@@ -1,5 +1,6 @@
 package daos
 
+import models.Newsletter
 import play.api.i18n.Messages
 
 import scala.concurrent.Future
@@ -42,6 +43,6 @@ trait NewsletterDAO {
     *
     * @return lista adresów email
     */
-  def list: Future[List[String]]
+  def list: Future[List[Newsletter]]
 
 }

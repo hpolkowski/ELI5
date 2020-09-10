@@ -3,6 +3,8 @@ package models
 import java.time.LocalDateTime
 import java.util.UUID
 
+import bootstrap.AppConfig
+import controllers.routes
 import forms.{CreateArticleForm, EditArticleForm}
 import play.api.data.Form
 import utils.{ArticleState, Language}
@@ -60,4 +62,12 @@ case class Article(
     * @return true jeżeli status jest TO_REVIEW
     */
   def isToReview: Boolean = state == ArticleState.TO_REVIEW
+
+  /**
+    * Zwraca tytuł artykułu wraz z pełnym linkiem
+    *
+    * @param appDomain domena aplikacji
+    * @return tytuł artykułu z linkiem
+    */
+  def titleWithUrl(appDomain: String): String = s"$title -> http://${appDomain}${routes.HomeController.details(url)}"
 }

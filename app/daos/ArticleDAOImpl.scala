@@ -84,6 +84,20 @@ class ArticleDAOImpl @Inject() (val database: DatabaseConnector) (implicit conte
   override def count: Future[Long] = Future.successful(run(articles.size))
 
   /**
+    * Zwraca ostatnie artykuły potrzebne do newslwttera
+    *
+    * @return lista artykułów
+    */
+  override def newsletterList: Future[List[Article]] = for {
+    latestPL <- Future.successful(run(articles.filter(_.lang == lift(Language.PL)).sortBy(_.editDate)(Ord.desc).take(3)))
+    popularPL <- Future.successful(run(articles.filter(_.lang == lift(Language.PL)).sortBy(_.views)(Ord.desc).take(3)))
+    latestUS <- Future.successful(run(articles.filter(_.lang == lift(Language.US)).sortBy(_.editDate)(Ord.desc).take(3)))
+    popularUS <- Future.successful(run(articles.filter(_.lang == lift(Language.US)).sortBy(_.views)(Ord.desc).take(3)))
+  } yield {
+    latestPL ::: popularPL ::: latestUS ::: popularUS
+  }
+
+  /**
     * Zwraca listę artykułów przefiltrowaną, posortowaną z podziałem na strony
     *
     * @param page       aktualna strona

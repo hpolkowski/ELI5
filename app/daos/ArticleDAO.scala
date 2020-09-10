@@ -57,6 +57,13 @@ trait ArticleDAO {
   def count: Future[Long]
 
   /**
+    * Zwraca ostatnie artykuły potrzebne do newslwttera
+    *
+    * @return lista artykułów
+    */
+  def newsletterList: Future[List[Article]]
+
+  /**
     * Zwraca listę artykułów przefiltrowaną, posortowaną z podziałem na strony
     *
     * @param page       aktualna strona
